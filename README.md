@@ -1,17 +1,21 @@
 
 # Today I Learned(TIL)
 
+<!--[TOC]: # "## Table of Contents"-->
+
 ## Table of Contents
-- [Today I Learned(TIL)](#today-i-learnedtil)
-  - [Spring Boot](#spring-boot)
-  - [Network](#network)
-  - [Velog](#velog)
+- [Table of Contents](#table-of-contents)
+- [Spring Boot](#spring-boot)
+- [JPA](#jpa)
+- [Velog](#velog)
 
 매일은 아니지만 꾸준히 공부하기 위한 나만의 스터디 공간
 ## Spring Boot
 
 ## JPA
-- [JPA에 대해서](https://github.com/lsb156/TIL/blob/master/JPA/01_JPA%EC%97%90%20%EB%8C%80%ED%95%B4%EC%84%9C.md)
+- [JPA에 대해서](JPA/01_JPA에%20대해서.md)
+- [Entity Mapping](JPA/02_Entity%20Mapping.md)
+- [연관관계 맵핑](JPA/03_연관관계%20맵핑.md)
 
 ## Velog
 - OOP
