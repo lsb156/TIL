@@ -4,7 +4,6 @@
 <!--[TOC]: # "## Table of Contents"-->
 
 ## Table of Contents
-- [Table of Contents](#table-of-contents)
 - [Spring Boot](#spring-boot)
 - [JPA](#jpa)
 - [Velog](#velog)
@@ -16,6 +15,10 @@
 - [JPA에 대해서](JPA/01_JPA에%20대해서.md)
 - [Entity Mapping](JPA/02_Entity%20Mapping.md)
 - [연관관계 맵핑](JPA/03_연관관계%20맵핑.md)
+- [04_Proxy](JPA/04_Proxy.md)
+- [05_Value Type](JPA/05_Value%20Type.md)
+- [06_JPQL](JPA/06_JPQL.md)
+- [07.기타 JPA 기능](JPA/07.기타%20JPA%20기능.md)
 
 ## Velog
 - OOP
