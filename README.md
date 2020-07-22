@@ -15,10 +15,13 @@
 - [JPA에 대해서](JPA/01_JPA에%20대해서.md)
 - [Entity Mapping](JPA/02_Entity%20Mapping.md)
 - [연관관계 맵핑](JPA/03_연관관계%20맵핑.md)
-- [04_Proxy](JPA/04_Proxy.md)
-- [05_Value Type](JPA/05_Value%20Type.md)
-- [06_JPQL](JPA/06_JPQL.md)
-- [07.기타 JPA 기능](JPA/07.기타%20JPA%20기능.md)
+- [Proxy](JPA/04_Proxy.md)
+- [Value Type](JPA/05_Value%20Type.md)
+- [JPQL](JPA/06_JPQL.md)
+- [기타 JPA 기능](JPA/07_기타%20JPA%20기능.md)
+
+## Test
+- [테스트 주도개발 시작하기](Test/테스트%20주도개발%20시작하기.md)
 
 ## Velog
 - OOP
