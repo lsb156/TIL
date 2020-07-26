@@ -20,8 +20,12 @@
 - [JPQL](JPA/06_JPQL.md)
 - [기타 JPA 기능](JPA/07_기타%20JPA%20기능.md)
 
+## MSA
+- [마이크로서비스의 이해](MSA/마이크로서비스의%20이해.md)
+
 ## Test
 - [테스트 주도개발 시작하기](Test/테스트%20주도개발%20시작하기.md)
+- [Mockito](Test/Mockito.md)
 
 ## Velog
 - OOP
