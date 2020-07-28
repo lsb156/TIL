@@ -12,13 +12,13 @@
 ## Spring Boot
 
 ## JPA
-- [JPA에 대해서](JPA/01_JPA에%20대해서.md)
-- [Entity Mapping](JPA/02_Entity%20Mapping.md)
-- [연관관계 맵핑](JPA/03_연관관계%20맵핑.md)
-- [Proxy](JPA/04_Proxy.md)
-- [Value Type](JPA/05_Value%20Type.md)
-- [JPQL](JPA/06_JPQL.md)
-- [기타 JPA 기능](JPA/07_기타%20JPA%20기능.md)
+- [JPA에 대해서](JPA/JPA%20프로그래밍%20기본/01_JPA에%20대해서.md)
+- [Entity Mapping](JPA/JPA%20프로그래밍%20기본/02_Entity%20Mapping.md)
+- [연관관계 맵핑](JPA/JPA%20프로그래밍%20기본/03_연관관계%20맵핑.md)
+- [Proxy](JPA/JPA%20프로그래밍%20기본/04_Proxy.md)
+- [Value Type](JPA/JPA%20프로그래밍%20기본/05_Value%20Type.md)
+- [JPQL](JPA/JPA%20프로그래밍%20기본/06_JPQL.md)
+- [기타 JPA 기능](JPA/JPA%20프로그래밍%20기본/07_기타%20JPA%20기능.md)
 
 ## MSA
 - [마이크로서비스의 이해](MSA/마이크로서비스의%20이해.md)
@@ -26,6 +26,9 @@
 ## Test
 - [테스트 주도개발 시작하기](Test/테스트%20주도개발%20시작하기.md)
 - [Mockito](Test/Mockito.md)
+
+## Deno
+- [What is Deno](Deno/What%20is%20Deno.md)
 
 ## ETC
 - [PowerApps 샘플 앱 만들기](ETC/PowerApps%20샘플%20앱%20만들기.md)

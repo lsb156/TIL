@@ -10,7 +10,7 @@
 
 **Java Persistence Query Language**
 
-JPA가 지원하는 쿼리 언어들
+JPA가 지원하는 쿼리 언어들R
 - JPQL
 - JPA Criteria
 - QueryDSL
@@ -360,7 +360,7 @@ select t from Team t join fetch t.members m
 
 ### 다형성 쿼리
 
-![Alt text](../asset/JPA/jpa-jpql-polymorphism-query.png)
+![Alt text](../../asset/JPA/jpa-jpql-polymorphism-query.png)
 
 위 그림에서 ITEM중에 Book, Movie를 조회하는 조건
 

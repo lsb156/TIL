@@ -12,7 +12,7 @@
 `Entity Manager Factory`에서 요청이 올때마다 Entity Manger 를 제공 한다.
 
 ### Persistance Context (영속성 컨텍스트)
-![jpa persist lifecycle](../asset/JPA/jpa-persist-lifecycle.png)
+![jpa persist lifecycle](../../asset/JPA/jpa-persist-lifecycle.png)
 
 |상태|State|설명|
 |:-|:-|-|
