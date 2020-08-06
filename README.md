@@ -25,6 +25,9 @@
 - [JPQL](JPA/JPA%20프로그래밍%20기본/06_JPQL.md)
 - [기타 JPA 기능](JPA/JPA%20프로그래밍%20기본/07_기타%20JPA%20기능.md)
 
+## Java
+- [Java Database](Java/Java%20Database.md)
+
 ## MSA
 - [마이크로서비스의 이해](MSA/마이크로서비스의%20이해.md)
 
@@ -40,6 +43,7 @@
 
 ## ETC
 - [PowerApps 샘플 앱 만들기](ETC/PowerApps%20샘플%20앱%20만들기.md)
+- [Requery](ETC/Requery.md)
 
 ## Velog
 - OOP
