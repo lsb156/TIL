@@ -15,6 +15,7 @@
 
 ## Spring Boot
 - [스프링 부트로 배우는 자바 웹 개발](SpringBoot/스프링%20부트로%20배우는%20자바%20웹%20개발.md)
+- [Spring Data JPA](SpringBoot/Spring%20Data%20JPA.md)
 
 ## JPA
 - [JPA에 대해서](JPA/JPA%20프로그래밍%20기본/01_JPA에%20대해서.md)
@@ -32,6 +33,7 @@
 - [마이크로서비스의 이해](MSA/마이크로서비스의%20이해.md)
 
 ## Test
+- [TDD란?](Test/TDD란%3F.md)
 - [테스트 주도개발 시작하기](Test/테스트%20주도개발%20시작하기.md)
 - [Mockito](Test/Mockito.md)
 
