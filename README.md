@@ -24,6 +24,7 @@
 - [JPA Spring Boot 기본 설정](JPA/JPA%20Spring%20Boot%20기본%20설정.md)
 
 ## Java
+- [JVM 구조](Java/JVM%20구조.md)
 - [Java Database](Java/Java%20Database.md)
 
 ## Test
