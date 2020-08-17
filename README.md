@@ -38,6 +38,7 @@
 
 ## Deno
 - [What is Deno](Deno/What%20is%20Deno.md)
+- [TypeScript](Deno/TypeScript.md)
 
 ## Network
 - [OSI 7 Layer - L4 vs L7](Network/OSI%207%20Layer%20-%20L4%20vs%20L7.md)
