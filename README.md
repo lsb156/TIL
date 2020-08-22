@@ -41,6 +41,9 @@
 - [What is Deno](Deno/What%20is%20Deno.md)
 - [TypeScript](Deno/TypeScript.md)
 
+## Database
+- [Transaction Isolation Level](Database/Transaction%20Isolation%20Level.md)
+
 ## Network
 - [OSI 7 Layer - L4 vs L7](Network/OSI%207%20Layer%20-%20L4%20vs%20L7.md)
 
@@ -73,4 +76,8 @@
 
 - ETC
   - [What-is-Deno](https://velog.io/@lsb156/What-is-Deno)
+
+- DATABASE
+  - [Transaction Isolation Level 정리](https://velog.io/@lsb156/Transaction-Isolation-Level)
+
 
