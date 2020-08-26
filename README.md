@@ -26,6 +26,9 @@
 - [기타 JPA 기능](JPA/JPA%20프로그래밍%20기본/07_기타%20JPA%20기능.md)
 - [JPA Spring Boot 기본 설정](JPA/JPA%20Spring%20Boot%20기본%20설정.md)
 
+## Architecture
+- [Hexagonal Architecture](Architecture/Hexagonal%20Architecture.md)
+
 ## Java
 - [JVM 구조](Java/JVM%20구조.md)
 - [Java Database](Java/Java%20Database.md)
