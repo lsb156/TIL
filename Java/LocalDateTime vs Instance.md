@@ -1,11 +1,10 @@
 # JAVA Instant와 LocalDateTime의 다른점
 
-Java 8 이상되면서 무의식적으로 Date, Time, Timestamp등이 레거시가 되어버리고
-`LocalDateTime`, `ZonedDateTime`, `LocalTime` 등을 Database Entity에서 사용하는것을 많이 봐왔습니다.
+Java 8 이상되면서 Date, Time, Timestamp등이 레거시가 되어버리고
+무의식적으로 `LocalDateTime`, `ZonedDateTime`, `LocalTime` 등을 Database Entity에서 사용하는것을 많이 봐왔습니다.
 그러던중 Instant라는 객체를 발견하면서부터 의구심이 들었습니다.
-
-LocalDateTime.. 너 정말 좋은놈이니?
-
+더 좋은거 같은데 왜 사람들이 안쓰는거였지? 하는 생각부터 하게되면서
+어떠한 타입을 어느곳에 적절하게 사용하여야 하는지 조사해본 결과를 공유하려 포스팅을 남깁니다.
 
 <!--[TOC]: # "## Table of Contents"-->
 
