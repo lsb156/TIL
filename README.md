@@ -74,6 +74,7 @@
   - [Spring Boot - Properties 사용법](https://velog.io/@lsb156/Spring-Boot-Properties-Usage)
   - [Wavefront Sample 정리](https://velog.io/@lsb156/Spring-Boot-Wavefront-Sample-%EC%A0%95%EB%A6%AC)
   - [SpringBoot with Kotlin에서 JpaRepository default method 구현에 따른 오류](https://velog.io/@lsb156/SpringBoot-with-Kotlin%EC%97%90%EC%84%9C-JpaRepository-default-method-%EA%B5%AC%ED%98%84%EC%97%90-%EB%94%B0%EB%A5%B8-%EC%98%A4%EB%A5%98)
+  - [Java8+ Instant vs LocalDateTime 각 사용방법](https://velog.io/@lsb156/Instant-vs-LocalDateTime)
 
 - Android
   - [Android - Room, LiveData, ViewModel로 Reactive한 데이터 연동](https://velog.io/@lsb156/Android-Room-LiveData-ViewModel%EB%A1%9C-Reactive%ED%95%9C-%EB%8D%B0%EC%9D%B4%ED%84%B0-%EC%97%B0%EB%8F%99)
