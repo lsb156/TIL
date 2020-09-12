@@ -43,7 +43,8 @@
 ## Kotlin
 - [Kotlin Base](Kotlin/Kotlin%20Base.md)
 - [Coroutine](Kotlin/Coroutine.md)
-
+- [JSR-380 in kotlin](Kotlin/JSR-380%20in%20kotlin.md)
+- 
 ## Deno
 - [What is Deno](Deno/What%20is%20Deno.md)
 - [TypeScript](Deno/TypeScript.md)
@@ -82,7 +83,7 @@
 - Kotlin
   - [Kotlin으로 Spring Boot Security - Login 맛보기](https://velog.io/@lsb156/Kotlin%EC%9C%BC%EB%A1%9C-Spring-Boot-Security-Login-%EB%A7%9B%EB%B3%B4%EA%B8%B0)
   - [IntelliJ Kotlin Code Style 설정법](https://velog.io/@lsb156/IntelliJ-Kotlin-Code-Style-%EC%84%A4%EC%A0%95%EB%B2%95)
-
+  - [SpringBoot - Kotlin에서 @Valid가 동작하지 않는 원인(JSR-303, JSR-380)](https://velog.io/@lsb156/SpringBoot-Kotlin%EC%97%90%EC%84%9C-Valid%EA%B0%80-%EB%8F%99%EC%9E%91%ED%95%98%EC%A7%80-%EC%95%8A%EB%8A%94-%EC%9B%90%EC%9D%B8JSR-303-JSR-380)
 - ETC
   - [What-is-Deno](https://velog.io/@lsb156/What-is-Deno)
 
