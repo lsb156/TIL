@@ -65,6 +65,7 @@
 - [PowerApps 샘플 앱 만들기](ETC/PowerApps%20샘플%20앱%20만들기.md)
 - [Requery](ETC/Requery.md)
 - [마이크로서비스의 이해](MSA/마이크로서비스의%20이해.md)
+- [Api Gateway](MSA/Api%20Gateway.md)
 
 ## Velog
 - OOP
