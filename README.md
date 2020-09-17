@@ -8,6 +8,7 @@
 ## Spring
 - [Spring의 기본 구조](Spring/Spring의%20기본%20구조.md)
 - [Spring - AOP](Spring/Spring%20-%20AOP.md)
+- [Spring Transactional](Spring/Spring%20Transactional.md)
 
 ## Spring Boot
 - [스프링 부트로 배우는 자바 웹 개발](SpringBoot/스프링%20부트로%20배우는%20자바%20웹%20개발.md)
