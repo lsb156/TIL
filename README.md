@@ -29,6 +29,7 @@
 
 ## Architecture
 - [Hexagonal Architecture](Architecture/Hexagonal%20Architecture.md)
+- [Richardson Maturity Model](Architecture/Richardson%20Maturity%20Model.md)
 
 ## Java
 - [JVM 구조](Java/JVM%20구조.md)
