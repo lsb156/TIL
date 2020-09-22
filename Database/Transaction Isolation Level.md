@@ -130,11 +130,11 @@ MVCC(Multi Version Concurrency Control)을 사용하지 않음으로써 데이�
 > 쉽게 말해 리소스를 다른 사용자가 동시에 읽을 수 있게 하되 변경은 불가하게 하는 것이다.
 > => 어떤 자원에 shared lock이 동시에 여러개 적용될 수 있다.
 > => 어떤 자원에 shared lock이 하나라도 걸려있으면 exclusive lock을 걸 수 없다.
->
+>![optimistic-lock-exception-entity](../asset/JPA/optimistic-lock-exception-entity.png)
 > **X Lock** : ( Exclusive lock, 배타적 잠금 )
 > 쓰기 잠금(Write lock)이라고도 불린다.
 > 어떤 트랜잭션에서 데이터를 변경하고자 할 때(ex . 쓰고자 할 때) 해당 트랜잭션이 완료될 때까지 해당 테이블 혹은 레코드(row)를 다른 트랜잭션에서 읽거나 쓰지 못하게 하기 위해 Exclusive lock을 걸고 트랜잭션을 진행시키는  것이다.
-> => exclusive lock에 걸리면 shared lock을 걸 수 없다. (shared lock은 아래에서 설명)
+> => exclusive lock에 걸리면 shared lock을 걸 수 없다. (shared lock은 위에서 설명)
 > => exclusive lock에 걸린 테이블,레코드등의 자원에 대해 다른 트랜잭션이 exclusive lock을 걸 수 없다.
 >
 >RX, RS, S, SRX, X등 다양한 Lock이 존재.
