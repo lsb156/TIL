@@ -68,8 +68,6 @@ JUnit5 에서는 상관없이 `public`일 필요가 없음
 |assertDoesNotThrow(Executable executable)|executable을 실행한 결과로 익셉션이 발생하지 않는지 검사|
 
 
-
-
 ### 불필요한 연산 제거
 ``` java
 assertEqual(StudyStatus.DRAFT, study.getStatus(), "스터디 " + StudyStatus.DRAFT + " 상태") // (1)
@@ -193,3 +191,53 @@ void openJdk() {
 	...
 }
 ```
+
+## Tagging
+@Tag를 이용하여
+
+## 반복 테스트
+### RepeatedTest
+``` java
+@DisplayName("반복 테스트")
+@RepeatedTest(value = 10, name = "{displayName}, {currentRepetition} / {totalRepotition}")
+void repeatedTest(RepetitionInfo info) {
+    System.out.println("test : " + info.getCurrentRepetition() + ", " 
+        + info.getTotalCurrentRepetition()); 
+}
+```
+
+
+### ParameterizedTest
+
+``` java
+@DisplayName("ParameterizedTest")
+@ParameterizedTest(name = "{index} {displayName} message={0}")
+@ValueSource(strings = {"value01", "value02", "value03"})
+@EmptySource // ValueSource 이외에 message가 비어있는값이 한번 더 테스트 된다.
+@NullSource // ValueSource 이외에 message가 Null 값이 한번 더 테스트 된다.
+@NullAndEmptySource // EmptySource + NullSource
+void parameterizedTest(String messege) {
+    System.out.println(message)
+}
+```
+
+
+## Test Instance
+원래 JUnit의 메커니즘은 하나의 클래스안에 각각의 메소드별로 클래스의 인스턴스가 다르다.
+그래서 전역변수를 변경해도 다른 테스트에서는 그 값을 공유하지 못한다
+`TestInstance`를 선언해 주면 메소드들이 같은 인스턴스내에서 실행되게되어 전역변수 공유가 가능하다.
+``` java
+@TestInstance(TestInstance.Lifecysle.PER_CLASS)
+class TestClass() {
+    
+}
+```
+
+
+
+
+
+
+
+
+
