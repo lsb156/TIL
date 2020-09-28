@@ -226,6 +226,8 @@ void parameterizedTest(String messege) {
 원래 JUnit의 메커니즘은 하나의 클래스안에 각각의 메소드별로 클래스의 인스턴스가 다르다.
 그래서 전역변수를 변경해도 다른 테스트에서는 그 값을 공유하지 못한다
 `TestInstance`를 선언해 주면 메소드들이 같은 인스턴스내에서 실행되게되어 전역변수 공유가 가능하다.
+
+`@BeforeAll`, `@AfterAll`을 사용하고있으면 static 메소드가 아닌 일반 메소드로 사용한다.
 ``` java
 @TestInstance(TestInstance.Lifecysle.PER_CLASS)
 class TestClass() {
@@ -233,11 +235,61 @@ class TestClass() {
 }
 ```
 
+## Order
+메소드의 실행 순서를 보장시켜준다.
+옵션은 다음과 같이 3가지를 사용 가능하다
+- Alphanumeric
+- OrderAnnoation - method에 정의된 `@Order` annotation을 보고 순서를 결정
+- Random
+
+``` java
+@TestInstance(TestInstance.Lifecysle.PER_CLASS)
+@TestMethodOrder(MethodOrder.OrderAnnotation.class)
+class TestClass() {
+    
+    @Order(1)
+    void order01() {
+        ...
+    }
+    
+    @Order(2)
+    void order02() {
+        ...
+    }
+}
+```
 
 
+## JUnit Config
+`test/resource` 경로에 `junit-platform.properties` 파일 생성하면 자동으로 설정됨
+```
+# 테스트 인스턴스 라이프사이클 일괄적용
+junit.jupiter.testinstance.lifecycle.default = per_class
 
+# 확장팩 자동 감지 기능
+junit.jupiter.extensions.autodetection.enabled = true
 
+# @Disabled 무시하고 실행하기
+junit.jupiter.conditions.deactivate = org.junit.*DisabledCondition
 
+# 테스트 이름 표기 전략 설정
+junit.jupiter.displayname.generator.default = org.junit.jupiter.api.DisplayNameGenerator$ReplaceUnderscores
+```
 
+## 마이그레이션
+JUnit5에서 `junit-vintage-engine` 의존성을 추가하면 JUnit4, JUnit3의 테스트 코드를 실행할 수 있다.
+JUnit4에서 사용되는 `@Runwith`를 이제는 사용하지 않아도 된다.
+
+`@Rule`은 기본적으로 지원하지 않지만, `junit-jupiter-migrationsupport` 모듈이 제공하는 `@EnableRuleMigrationSupport`를 사용하면 다음 타입의 Rule을 지원한다.
+- ExternalResource
+- Verifier
+- ExpectedException
+
+|JUnit4|JUnit5|
+|:--|:--|
+|@Category(Class)|@Tag(String)|
+|@RunWith, @Rule, @ClassRule|@ExtendWith, @RegisterExtension|
+|@Ignore|@Disabled|
+|@Before, @After, @BeforeClass, @AfterClass|@BeforeEach, @AfterEach, @BeforeAll, @AfterAll|
 
 
