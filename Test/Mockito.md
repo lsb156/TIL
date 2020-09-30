@@ -1,6 +1,9 @@
 # Mockito
-Mockito는 모의 객체 생성, 검증, 스텁을 지원하는 프레임워크
 
+Mockito는 모의 객체 생성, 검증, 스텁을 지원하는 프레임워크이다.
+
+`Mock`이란 진자 객체처럼 동작하지만 객체의 행동을 관리하는 객체이며
+`Mockito`란 그 Mock을 쉽게 만들고 관리하고 검증할 수 있는 방법을 제공
 <!--[TOC level=5]: # "## Table of Contents"-->
 
 ## Table of Contents
@@ -11,22 +14,67 @@ Mockito는 모의 객체 생성, 검증, 스텁을 지원하는 프레임워크
 
 ``` xml
 <dependencies>
-	<dependency>
-		<groupId>org.mockito</groupId>
-		<artifactId>mockito-core</artifactId>
-		<version>2.26.0</version>
-		<scope>test</scope>
-	</dependency>
+  <dependency>
+    <groupId>org.mockito</groupId>
+    <artifactId>mockito-core</artifactId>
+    <version>2.26.0</version>
+    <scope>test</scope>
+  </dependency>
 </dependencies>
 ```
-``` java
+``` gradle
 dependencies {
-	testImplementation('org.mockito:mockito-core:2.26.0')
+    testImplementation('org.mockito:mockito-core:2.26.0')
 }
 ```
+Spring Boot에서는 `springboot-test-starter`에 기본적으로 등록이 되어있어 별도로 의존성 추가를 하지 않아도 된다.
 
 ## 기본 사용법
+``` java
+@ExtendWith(MockitoExtension.class)
+public MockitoTest{
+    
+    @Mock
+    TestService testService;
+    
+    @Mock
+    TestRepositoyr testRepository;
+    
+    @Test
+    void testMethod(@Mock MemberService memberService) {
+        Member member = new Member();
+        member.setName("name");
+        member.setId(1L);
+        // Normal Styel
+        when(memberService.findById(1L)).thenReturn(member);
+        // BDD Style
+        given(memberService.findById(1L)).willReturn(member);
+
+        Member savedMember = memberService.findById(1L);
+        assertEquals(1L, savedMember.getId());
+        assertEquals("name", savedMember.getName());
+        
+        // 에러가 나도록 처리
+        doThrow(new MemberNotFoundException()).when(memberService).findById(2L);
+        
+        assertThrow(MemberNotFoundException.class, () -> {
+            memberService.findById(2L);
+        });
+        
+        // 지속적인 호출때 값이 다르도록 Stubing 한다.
+        when(memberService.findById(1L))
+                .thenReturn(member)
+                .thenReturn(empty())
+                .thenThrow(new MemberNotFoundException());
+    }
+    
+}
 ```
+`@Mock` Annotation이 붙어있는 객체를 Mocking 하려면 `@ExtendWith(MockitoExtension.class)`를 class에 선언해줘야한다.
+
+name, id 값을 가지고 있는 Member를 리턴받기위해 미리 작업을 해 놓는것을 `Stub` 이라고 한다.
+
+``` java
 // GameNumGen.java
 public interface GameNumGen {
     String generate(GameLevel level);
@@ -88,16 +136,14 @@ public class GameGenMockTest {
         );
     }
 }
-
 ```
 
 
-
- **스텁을 설정할 인자가 두 개 이상인 경우 주의할점**
- ArgumentMatchers의 anyInt나 any()등의 메서드는 내부적으로 인작의 일치 여부를 판단하기 위해 ArgumentMatcher를 등록한다.
- Mockito는 한 인자라도 ArgumentMatcher를 사용해서 설정한 경우 모든 인자를 ArgumentMatcher를 이용하여 설정하도록 하고있다.
+**스텁을 설정할 인자가 두 개 이상인 경우 주의할점**
+ArgumentMatchers의 anyInt나 any()등의 메서드는 내부적으로 파라메의 일치 여부를 판단하기 위해 ArgumentMatcher를 등록한다.
+Mockito는 한 인자라도 ArgumentMatcher를 사용해서 설정한 경우 모든 인자를 ArgumentMatcher를 이용하여 설정하도록 하고있다.
 따라서 다음 코드는 Exception을 발생한다.
-```
+``` java
 @Test
 void mixAnyAndEq() {
     List<String> mockList = mock(List.class);
@@ -112,15 +158,64 @@ void mixAnyAndEq() {
 ``` java
   given(mockList.set(anyInt(), eq("123"))).willReturn("456");
 ```
+### ArgumentMatcher
 ArgumentMatcher는 다음과 같은 메서드를 제공한다
+
 |method|설명|
-|:-|:-|
+|:--|:--|
 |anyInt()<br>anyShort()<br>anyLong()<br>anyByte()<br>anyChar()<br>anyDouble()<br>anyFloat()<br>anyBoolean()|기본 데이터 타입에 대한 임의 값 일치|
 |anyString()|문자열에 대한 임의 값 일치|
 |any()|임의 타입에 대한 일치|
 |anyList()<br>anySet()<br>anyMap()<br>anyCollection()|임의 콜렉션에 대한 일치|
 |matchers(String)<br>matchers(Pattern)|정규표현식을 이용한 String 값 일치 여부|
 |eq()|특정 값과 일치 여부|
+
+### Verify
+``` java
+@ExtendWith(MockitoExtension.class)
+public MockitoTest{
+
+    @Mock
+    TestService testService;
+    
+    @Mock
+    TestRepositoyr testRepository;
+    
+    @Test
+    void testMethod(@Mock MemberService memberService) {
+        Member member = new Member();
+        member.setName("name");
+        member.setId(1L);
+    
+        Member member2 = new Member();
+        member2.setId(2L);
+        
+        given(memberService.findById(1L)).willReturn(member);
+
+        Member savedMember = memberService.findById(1L);
+        assertEquals(1L, savedMember.getId());
+        assertEquals("name", savedMember.getName());
+             
+        // 정확히 memberService에 member를 이용해 1회 호출되어야 한다.
+        verify(memberService, times(1)).findById(member);
+        verify(memberService, times(1)).findById(member2);
+        verify(memberService, never()).remove(any());
+
+        // 정확히 같은 순서대로 호출이 되어야 한다.
+        InOrder inOrder = inOrder(memberService);
+        inOrder.verify(memberService).findById(member);
+        inOrder.verify(memberService).findById(member2);
+    
+        // 이제 아무것도 호출이 되면 안된다.    
+        verifyNoMoreInteractions(memberService);
+        
+        // BDD Style
+        then(memberService).should(times(1)).notify(study);
+        then(memberService).shouldHaveNoMoreInteractions();
+
+    }
+}
+```
 
 ## 행위 검증
 다음 코드는 모의 객체의 특정 메서드가 불렸는지 검증하는 코드이다.
@@ -137,9 +232,9 @@ public class GameTest {
 
 		// 정확한게 아니라 메서드 호출 유무만 판단할때        
         then(genMock).should().generate(any());
-        
         // 한번만 호출된 것을 검증할때
         then(genMock).should(only()).generate(any());
+        
     }
 }
 ```
