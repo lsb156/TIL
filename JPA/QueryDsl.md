@@ -93,7 +93,7 @@ QType 객체 생성시 alias를 따로 주어 같은 Table 내에서 join이 발
 
 ### 검색 조건
 
-``` kotlin
+``` java
 // username = 'member1'
 member.username.eq("member1") 
 member.username.ne("member1") //username != 'member1'
@@ -194,5 +194,134 @@ member.username.startsWith("member") //like ‘member%’ 검색
     assertThat(teamB.get(team.name)).isEqualTo("B")
     assertThat(teamB.get(member.age.avg())).isEqualTo(35.0)
 ```
+
+## Join
+
+### Normal Join
+
+조인의 기본 문법으로는 `join(first, second)` first에 조인 대상을 지정하여준 뒤에 second에 조인할 파라메터의 별팅으로 사용할 QType을 지정하여주면 된다.
+
+``` kotlin
+@Test
+fun join() {
+    val members = queryFactory
+        .selectFrom(member)
+        .join(member.team, team)
+        .where(team.name.eq("A"))
+        .fetch()
+
+    assertThat(members).extracting("name")
+        .containsExactly("member1", "member2")
+}
+```
+### Theta Join
+연관관계가 맺어져있지 않은 전혀 관련이 없는 두 조건을 Join하여준다.
+
+
+``` kotlin
+@Test
+fun theta_join() {
+    em.persist(Member(name = "A"))
+    em.persist(Member(name = "B"))
+    em.persist(Member(name = "C"))
+
+    val members = queryFactory
+        .select(member)
+        .from(member, team)
+        .where(member.name.eq(team.name))
+        .fetch()
+
+    assertThat(members).extracting("name")
+        .containsExactly("A", "B")
+}
+```
+Theta Join은 From절에 여러 Entity를 선택해서 조인이 가능
+하지만 외부 조인이 불가능하고 inner join으로만 가능하다.
+하지만 on을 이용할 경우에는 외부 조인이 가능하다.
+
+### Using On
+JPA 2.1부터 제공되는 옵션으로 On 절을 활용한 Join 방법에는 크게 두가지 활용법이 있다.
+1. 조인 대상 필터링
+2. 연관관계 없는 엔티티의 외부조인
+
+#### 내부 Join
+``` kotlin
+    val members1 = queryFactory
+        .select(member, team)
+        .from(member)
+        .join(member.team, team)
+            .on(team.name.eq("A"))
+        .fetch()
+    
+    val members2 = queryFactory
+        .select(member, team)
+        .from(member)
+        .join(member.team, team)
+        .where(team.name.eq("A"))
+        .fetch()
+```
+> on 절을 활용해 조인 대상을 필터링 할 때, 외부조인(left)이 아니라 내부조인(inner join)을 사용하면,
+> where 절에서 필터링 하는 것과 기능이 동일하다. 따라서 on 절을 활용한 조인 대상 필터링을 사용할 때,
+> 내부조인 이면 익숙한 where 절로 해결하고, 정말 외부조인이 필요한 경우에만 이 기능을 사용하자.
+
+#### 외부 Join
+``` kotlin
+    val members = queryFactory
+        .select(member, team)
+        .from(member)
+        .leftJoin(member.team, team)
+            .on(team.name.eq("A"))
+        .fetch()
+```
+내부 join과는 다르게 where에서 on과 같은 상황을 주어도 결과가 같지 않아 leftJoin을 사용할 경우에는 on에서 해결해야한다.
+
+#### Theta Join
+``` kotlin
+@Test
+fun join_on_no_relation() {
+    em.persist(Member(name = "A"))
+    em.persist(Member(name = "B"))
+    em.persist(Member(name = "C"))
+
+    val members = queryFactory
+        .select(member, team)
+        .from(member)
+        .leftJoin(team) // 
+            .on(member.name.eq(team.name))
+        .fetch()
+
+    members.forEach { println("it = ${it}") }
+}
+```
+
+하이버네이트 5.1부터 on 을 사용해서 서로 관계가 없는 필드로 외부 조인하는 기능이 추가 (내부 조인도 가능)
+`leftJoin(team)` 대신 `leftJoin(member.team, team)`형태로 들어가게되면 ID 끼리 매칭이 되어버려 theta join 형태로 되지 않는다.
+- 일반조인: leftJoin(member.team, team)
+- on조인: from(member).leftJoin(team).on(xxx)
+
+#### Fetch Join
+
+페치 조인은 SQL에서 제공하는것이 아니고 JPQL에서 제공하는 기능이다.
+SQL조인을 활용해서 연관된 엔티티를 SQL 한번에 조회하는 기능
+주로 성능 최적화에 사용하는 방법이다
+
+``` kotlin
+@Test
+fun fetchJoin() {
+
+    val selectedMember = queryFactory
+        .selectFrom(member)
+        .join(member.team, team).fetchJoin()
+        .where(member.name.eq("member1"))
+        .fetchOne()
+
+    val loaded = emf.persistenceUnitUtil.isLoaded(selectedMember?.team)
+
+    assertThat(loaded).isTrue()
+}
+
+```
+join을 설정하여 준 뒤에 fetchJoin()을 호출하기만 해주면 JPQL의 fetchJoin이 설정된다.
+
 
 
