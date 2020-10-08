@@ -477,3 +477,193 @@ fun selectLowerMember() {
         .fetch()
 }
 ```
+## Projection
+
+### Bean
+Setter를 이용한 프로젝션
+DTO에 setter가 생성될 수 있도록 val -> var 로 수정을 해주어야한다.
+``` kotlin
+// MemberDto.kt
+class MemberDto(
+    var name: String? = null,
+    var age: Int? = null
+) {
+    override fun toString(): String {
+        return "MemberDto(name=$name, age=$age)"
+    }
+}
+
+// QueryDslTest.kt
+@Test
+fun projectionDto_Setter() {
+    val members = queryFactory
+        .select(
+            Projections.bean(
+                MemberDto::class.java,
+                member.name,
+                member.age
+            )
+        )
+        .from(member)
+        .fetch()
+
+    members.forEach { println(it) }
+}
+```
+
+### Field
+Field에 직접 값을 저장하는 방식 (리플렉션으로 private field도 처리 가능)
+
+``` kotlin
+// MemberDto.kt
+class MemberDto(
+    val name: String? = null,
+    val age: Int? = null
+) {
+    override fun toString(): String {
+        return "MemberDto(name=$name, age=$age)"
+    }
+}
+
+// QueryDslTest.kt
+@Test
+fun projectionDto_Field() {
+    val members = queryFactory
+        .select(
+            Projections.fields(
+                MemberDto::class.java,
+                member.name,
+                member.age
+            )
+        )
+        .from(member)
+        .fetch()
+
+    members.forEach { println(it) }
+}
+```
+
+만약 DTO에 있는 변수명이랑 Entity에 있는 field명이 다를시에는 alias를 이용하여 처리가 가능
+``` kotlin
+// MemberDto.kt
+class MemberDto(
+    val username: String? = null,
+    val age: Int? = null
+) {
+    override fun toString(): String {
+        return "MemberDto(username=$username, age=$age)"
+    }
+}
+
+// QueryDslTest.kt
+@Test
+fun projectionDto_Field_alias() {
+    val subMember = QMember("subMember")
+    val members = queryFactory
+        .select(
+            Projections.fields(
+                MemberDto::class.java,
+                member.name.`as`("username"),
+                ExpressionUtils.`as`(
+                    JPAExpressions
+                        .select(subMember.age.max())
+                        .from(subMember)
+                    ,"age"
+                )
+            )
+        )
+        .from(member)
+        .fetch()
+
+    members.forEach { println(it) }
+}
+```
+`ExpressionUtils`을 이용하여 서브쿼리도 alias가 가능
+
+
+### Constructor
+생성자를 이용한 프로젝션
+생성자에 입력하는 순서와 타입이 일치하여야한다.
+``` kotlin
+// MemberDto.kt
+class MemberDto(
+    val name: String? = null,
+    val age: Int? = null
+) {
+    override fun toString(): String {
+        return "MemberDto(name=$name, age=$age)"
+    }
+}
+
+// QueryDslTest.kt
+@Test
+fun projectionDto() {
+    val members = queryFactory
+        .select(
+            Projections.constructor(
+                MemberDto::class.java,
+                member.name,
+                member.age
+            )
+        )
+        .from(member)
+        .fetch()
+
+    members.forEach { println(it) }
+}
+```
+
+### QueryProjection
+
+DTO 생성자에 `@QueryProjection`를 추가하여준 뒤에 gradle에서 QueryDsl 빌드를 하게되면  
+DTO를 Q 파일로 제공하여준다.
+그 Q 파일을 이용하여 DTO를 반환하는 프로젝션을 만들 수 있다.
+``` kotlin
+// MemberDto.kt
+class MemberDto @QueryProjection constructor(
+    val name: String? = null,
+    val age: Int? = null
+) {
+    override fun toString(): String {
+        return "MemberDto(name=$name, age=$age)"
+    }
+}
+
+```
+``` java
+// QMemberDto.java
+/**
+ * com.ssabae.querydsl.demo.domain.dto.QMemberDto is a Querydsl Projection type for MemberDto
+ */
+@Generated("com.querydsl.codegen.ProjectionSerializer")
+public class QMemberDto extends ConstructorExpression<MemberDto> {
+
+    private static final long serialVersionUID = 938934842L;
+
+    public QMemberDto(com.querydsl.core.types.Expression<String> name, com.querydsl.core.types.Expression<Integer> age) {
+        super(MemberDto.class, new Class<?>[]{String.class, int.class}, name, age);
+    }
+
+}
+```
+
+``` kotlin
+@Test
+fun projectionDto_QDto() {
+    val members = queryFactory
+        .select(QMemberDto(member.name, member.age))
+        .from(member)
+        .fetch()
+
+    members.forEach { println("it = $it") }
+
+}
+```
+
+장점으로는 생성자 만드는 상황에서 컴파일 에러를 잡을 수 있다.
+기존의 `Projections.constructor`를 사용하는 방식은 가변인자 형태라 더 많은 인자들을 넣어도 컴파일 에러가 발생하지 않고 런타임 에러가 발생하게 된다.
+
+
+단점으로는 DTO에서 QueryDSL에 대한 의존성을 가지게 되어 아키텍쳐 적인 단점이 매우 늘어난다.
+
+
