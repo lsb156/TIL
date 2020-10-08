@@ -325,3 +325,155 @@ join을 설정하여 준 뒤에 fetchJoin()을 호출하기만 해주면 JPQL의
 
 
 
+## SubQuery
+`com.querydsl.jpa.JPAExpressions`을 사용하여 서브쿼리를 생성한다.
+
+### Where Subquery
+``` kotlin
+@Test
+fun subQueryInCase() {
+    val subMember = QMember("subMember")
+    val members = queryFactory
+        .selectFrom(member)
+        .where(
+            member.age.`in`(
+                JPAExpressions
+                    .select(subMember.age)
+                    .from(subMember)
+                    .where(subMember.age.gt(10))
+            )
+        )
+        .fetch()
+
+    assertThat(members).extracting("age")
+        .containsExactly(20, 30, 40)
+}
+```
+
+### Select Subquery
+``` kotlin
+@Test
+fun selectSubQuery() {
+    val subMember = QMember("subMember")
+    val members = queryFactory
+        .select(
+            member.name,
+            JPAExpressions
+                .select(subMember.age.avg())
+                .from(subMember)
+        )
+        .from(member)
+        .fetch()
+
+
+    members.forEach { println(it) }
+}
+```
+
+### From Subquery
+
+JPA JPQL 서브쿼리의 한계점으로 from 절의 서브쿼리(인라인 뷰)는 지원하지 않는다. 당연히 Querydsl도 지원하지 않는다.  
+하이버네이트 구현체를 사용하면 select 절의 서브쿼리는 지원한다. Querydsl도 하이버네이트 구현체를 사용하면 select 절의 서브쿼리를 지원한다.
+
+> from 절의 서브쿼리 해결방안
+> 1. 서브쿼리를 join으로 변경한다. (가능한 상황도 있고, 불가능한 상황도 있다.)
+> 2. 애플리케이션에서 쿼리를 2번 분리해서 실행한다.
+> 3. nativeSQL을 사용한다.
+
+
+## Case
+간단한 방식의 CASE
+``` kotlin
+@Test
+fun simpleCase() {
+    val members = queryFactory
+        .select(
+            member.age
+                .`when`(10).then("열살")
+                .`when`(20).then("스무살")
+                .otherwise("기타")
+        )
+        .from(member)
+        .fetch()
+
+    members.forEach { println(it) }
+}
+
+```
+
+
+CaseBuilder를 사용한 Case
+``` kotlin
+@Test
+fun complexCase() {
+    val members = queryFactory
+        .select(CaseBuilder()
+            .`when`(member.age.between(0, 20)).then("0~20")
+            .`when`(member.age.between(21, 30)).then("21~30")
+            .otherwise("기타")
+        )
+        .from(member)
+        .fetch()
+
+    members.forEach { println(it) }
+}
+```
+
+
+## 기타 기능
+
+### Concat
+문자열을 concat으로 합칠 수 있다.
+age는 숫자 타입이라 stringValue를 이용하여 String 형태로 변경한다.
+stringValue은 Enum을 처리할 때 자주 사용된다.
+``` kotlin
+@Test
+fun concat() {
+    val members = queryFactory
+        .select(member.name.concat("_").concat(member.age.stringValue()))
+        .from(member)
+        .fetch()
+}
+```
+
+### Distinct
+``` kotlin
+@Test
+fun distinct() {
+    val members = queryFactory
+        .select(member).distinct()
+        .from(member)
+        .fetch()
+}
+```
+
+### Function Call
+``` kotlin
+@Test
+fun functionCall() {
+    val members = queryFactory
+        .select(
+            Expressions.stringTemplate(
+                "function('replace', {0}, {1}, {2})",
+                member.name,
+                "member",
+                "M"
+            )
+        )
+        .from(member)
+        .fetch()
+
+    members.forEach { println(it) }
+    assertThat(members).containsExactly("M1", "M2", "M3", "M4")
+}
+
+
+@Test
+fun selectLowerMember() {
+    val members = queryFactory
+        .selectFrom(member)
+        // 대략적인 ANCI 표준 함수들은 querydsl에 내장되어있음
+        .where(member.name.eq(member.name.lower()))
+        .fetch()
+}
+```
