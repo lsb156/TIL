@@ -477,6 +477,7 @@ fun selectLowerMember() {
         .fetch()
 }
 ```
+
 ## Projection
 
 ### Bean
@@ -665,5 +666,456 @@ fun projectionDto_QDto() {
 
 
 단점으로는 DTO에서 QueryDSL에 대한 의존성을 가지게 되어 아키텍쳐 적인 단점이 매우 늘어난다.
+
+
+
+## Dynamic Query
+### BooleanBuilder
+``` kotlin
+@Test
+fun dynamicQuery_BooleanBuilder() {
+    val username = "member1"
+    val age = 10
+    val members = searchMember1(username, age)
+    members.forEach { println(it) }
+
+    assertThat(members[0].name).isEqualTo(username)
+    assertThat(members[0].age).isEqualTo(age)
+
+}
+
+private fun searchMember1(username: String?, age: Int?): List<Member> {
+    val booleanBuilder = BooleanBuilder()
+    username?.let {
+        booleanBuilder.and(member.name.eq(username))
+    }
+    age?.let {
+        booleanBuilder.and(member.age.eq(age))
+    }
+    return queryFactory
+        .selectFrom(member)
+        .where(booleanBuilder)
+        .fetch()
+}
+
+```
+
+#### Dynamic Search Query by BooleanBuilder
+``` kotlin
+// MemberTeamDto.kt
+class MemberTeamDto @QueryProjection constructor(
+    var memberId: Long? = null,
+    var username: String? = null,
+    var age: Int? = null,
+    var teamId: Long? = null,
+    var teamName: String? = null
+) {
+
+    override fun toString(): String {
+        return "MemberTeamDto(memberId=$memberId, username=$username, age=$age, teamId=$teamId, teamName=$teamName)"
+    }
+}
+
+// MemberSearchCondition.kt
+class MemberSearchCondition(
+    val username: String? = null,
+    val teamName: String? = null,
+    val ageGoe: Int? = null,
+    val ageLoe: Int? = null
+) {
+    override fun toString(): String {
+        return "MemberSearchCondition(username=$username, teamName=$teamName, ageGoe=$ageGoe, ageLoe=$ageLoe)"
+    }
+}
+
+// MemberRepository.kt
+@Repository
+class MemberRepository(
+    private val em: EntityManager
+) {
+
+    private val queryFactory = JPAQueryFactory(em)
+
+    fun searchByBuilder(condition: MemberSearchCondition): List<MemberTeamDto> {
+
+        val builder = BooleanBuilder()
+
+        condition.run {
+            if (username.isNullOrEmpty().not())
+                builder.and(member.name.eq(condition.username))
+            if (teamName.isNullOrEmpty().not())
+                builder.and(team.name.eq(condition.teamName))
+            ageGoe?.let { builder.and(member.age.goe(condition.ageGoe)) }
+            ageLoe?.let { builder.and(member.age.loe(condition.ageLoe)) }
+            null
+        }
+
+        return queryFactory.select(
+            QMemberTeamDto(
+                member.id.`as`("memberId"),
+                member.name.`as`("username"),
+                member.age,
+                team.id.`as`("teamId"),
+                team.name.`as`("teamName")
+            ))
+            .from(member)
+            .leftJoin(member.team, team)
+            .where(builder)
+            .fetch()
+    }
+}
+
+
+@Test
+fun searchByBuilder() {
+
+    val teamA = Team(name = "A")
+    val teamB = Team(name = "B")
+    em.persist(teamA)
+    em.persist(teamB)
+
+    val member1 = Member(name = "member1", age = 10, team = teamA)
+    val member2 = Member(name = "member2", age = 20, team = teamA)
+
+    val member3 = Member(name = "member3", age = 30, team = teamB)
+    val member4 = Member(name = "member4", age = 40, team = teamB)
+
+    em.persist(member1)
+    em.persist(member2)
+    em.persist(member3)
+    em.persist(member4)
+
+    val searchCondition = MemberSearchCondition(
+        ageGoe = 35,
+        ageLoe = 40,
+        teamName = "B"
+    )
+    val searchByBuilder = memberRepository.searchByBuilder(searchCondition)
+
+    searchByBuilder.forEach { println(it) }
+    assertThat(searchByBuilder).extracting("username")
+        .containsExactly("member4")
+}
+```
+
+### Where Parameter
+`usernameEq` 또는 `ageEq`에서 null 을 반환하더라도 where에서 null을 무시하기 떄문에 오류없이 해결이 가능하다.
+해당 방식으로 처리하면 가독성도 좋아지고 재사용성도 올라간다.
+
+``` kotlin
+@Test
+fun dynamicQuery_WhereParam() {
+    val username = "member1"
+    val age = 10
+    val members = searchMember2(username, age)
+    members.forEach { println(it) }
+
+    assertThat(members[0].name).isEqualTo(username)
+    assertThat(members[0].age).isEqualTo(age)
+
+}
+
+private fun searchMember2(username: String?, age: Int?): List<Member> {
+    return queryFactory
+        .selectFrom(member)
+        .where(usernameEq(username), ageEq(age))
+        .fetch()
+}
+
+private fun usernameEq(username: String?): Predicate? {
+    return if (username == null) null
+    else member.name.eq(username)
+}
+
+private fun ageEq(age: Int?): Predicate? {
+    return if (age == null) null
+    else member.age.eq(age)
+}
+// 해당 형태와 같이 조립이 가능함
+private fun allEq(username: String?, age: Int?): BooleanExpression? {
+    return usernameEq(username)?.and(ageEq(age))
+}
+
+```
+
+#### Dynamic Search Query by Where
+``` kotlin
+// 다른설정들은 Dynamic Search Query by BooleanBuilder 와 같음 
+fun searchByWhere(condition: MemberSearchCondition): List<MemberTeamDto> {
+    return queryFactory.select(
+        QMemberTeamDto(
+            member.id.`as`("memberId"),
+            member.name.`as`("username"),
+            member.age,
+            team.id.`as`("teamId"),
+            team.name.`as`("teamName")
+        ))
+        .from(member)
+        .leftJoin(member.team, team)
+        .where(
+            nameEquals(condition.username),
+            teamNameEquals(condition.teamName),
+            ageGoe(condition.ageGoe),
+            ageLoe(condition.ageLoe)
+        )
+        .fetch()
+}
+
+private fun nameEquals(username: String?): BooleanExpression? {
+    return username?.let { member.name.eq(username) }
+}
+
+private fun teamNameEquals(teamName: String?): BooleanExpression? {
+    return teamName?.let { team.name.eq(teamName) }
+}
+
+private fun ageGoe(age: Int?): BooleanExpression? {
+    return age?.let { member.age.goe(age) }
+}
+
+private fun ageLoe(age: Int?): BooleanExpression? {
+    return age?.let { member.age.loe(age) }
+}
+
+```
+
+## Bulk 연산
+``` kotlin
+@Test
+fun bulkUpdate() {
+    val count = queryFactory
+        .update(member)
+        .set(member.name, "비회원")
+        .where(member.age.lt(29))
+        .execute()
+
+    em.flush()
+    em.clear()
+
+    println("count = ${count}")
+    assertThat(count).isEqualTo(2)
+}
+```
+위와 같은 방식으로 벌크 Update가 가능하지만 벌크연산시에는 영속성컨텍스트를 무시하고 바로 DB에 업데이트 쿼리를 날리게된다.
+그렇게 하면 DB와 영속성컨텍스트와의 불일치가 일어나게되므로 벌크연산후에는 반드시 영속성컨텍스트를 초기화 해주어야한다.
+
+JPA는 기본적인 전략이 REPEATABLE READ라 데이터베이스에서 Entity를 조회를 하여도 영속성컨텍스트에 같은 아이디가 존재한다면 JPA는 영속성컨텍스트를 유지하고 새로운정보를 버린다.
+
+
+``` kotlin
+@Test
+// 모든 회원의 나이 1 더하기
+fun bulkAdd() {
+    val count = queryFactory
+        .update(member)
+        // member.age.multiply, member.age.divide
+        .set(member.age, member.age.add(1))
+        .execute()
+
+    println("count = ${count}")
+    assertThat(count).isEqualTo(2)
+}
+```
+
+``` kotlin
+@Test
+// Bulk Delete
+fun bulkDelete() {
+    val count = queryFactory
+        .delete(member)
+        .where(member.age.lt(29))
+        .execute()
+
+    println("count = ${count}")
+    assertThat(count).isEqualTo(2)
+}
+```
+
+## 사용자 정의 Repository with QueryDSL
+``` kotlin
+// MemberRepositoryCustom.kt
+interface MemberRepositoryCustom {
+    fun search(searchCondition: MemberSearchCondition): List<MemberTeamDto>
+}
+
+// MemberRepositoryImpl.kt
+class MemberRepositoryImpl(
+    private val em: EntityManager
+): MemberRepositoryCustom {
+
+    private val queryFactory = JPAQueryFactory(em)
+
+    override fun search(searchCondition: MemberSearchCondition): List<MemberTeamDto> {
+        return queryFactory.select(
+            QMemberTeamDto(
+                QMember.member.id.`as`("memberId"),
+                QMember.member.name.`as`("username"),
+                QMember.member.age,
+                QTeam.team.id.`as`("teamId"),
+                QTeam.team.name.`as`("teamName")
+            ))
+            .from(QMember.member)
+            .leftJoin(QMember.member.team, QTeam.team)
+            .where(
+                nameEquals(searchCondition.username),
+                teamNameEquals(searchCondition.teamName),
+                ageGoe(searchCondition.ageGoe),
+                ageLoe(searchCondition.ageLoe)
+            )
+            .fetch()
+    }
+
+    private fun nameEquals(username: String?): BooleanExpression? {
+        return username?.let { QMember.member.name.eq(username) }
+    }
+
+    private fun teamNameEquals(teamName: String?): BooleanExpression? {
+        return teamName?.let { QTeam.team.name.eq(teamName) }
+    }
+
+    private fun ageGoe(age: Int?): BooleanExpression? {
+        return age?.let { QMember.member.age.goe(age) }
+    }
+
+    private fun ageLoe(age: Int?): BooleanExpression? {
+        return age?.let { QMember.member.age.loe(age) }
+    }
+}
+
+// MemberRepository.kt
+interface MemberRepository : JpaRepository<Member, Long>, MemberRepositoryCustom
+```
+`MemberRepository`에서 상속받은 Custom Repository 즉  `MemberRepositoryCustom`를 구현한 구현체는
+`MemberRepositoryCustom`를 상속받는 클래스 뒤에 Impl을 붙여서 이름을 붙여야한다. **(반드시!)**
+예를들면 `MemberRepository` + `Impl`를 합친 `MemberRepositoryImpl`로 명명해야한다,
+
+
+## Pageable
+``` kotlin
+fun searchSimple(searchCondition: MemberSearchCondition, pageable: Pageable): PageImpl<MemberTeamDto> {
+    val results = queryFactory
+        .select(QMemberTeamDto( ... )
+        .from(member)
+        .leftJoin(member.team, team)
+        .where( conditionCheck(searchCondition) )
+        .offset(pageable.offset)
+        .limit(pageable.pageSize.toLong())
+        .fetchResults()
+
+    val content = results.results
+    return PageImpl(content, pageable, results.total)
+}
+
+```
+fetchResults를 이용하여 페이지 데이터들을 가져올 수 있다.
+fetchResults 실행시 count query를 자동으로 호출하여 쿼리가 두번 나가게 된다.
+
+하지만 join이 많고 count 쿼리에 사용되는 where 조건이 복잡한경우
+content를 가저오는 쿼리랑 count쿼리랑 시간이 오래 걸리기 떄문에 count 쿼리에 대해서 최적화가 필요하다.
+(where 조건 및 Join을 조금 제거하더라도 같은 count의 숫자가 나온다는 조건하에...)
+
+최적화가 필요한 경우에는 아래처럼 카운트 쿼리의 조건을 낮추어 좀 더 나은 최적화가 가능하다.
+
+``` kotlin
+fun searchComplex(searchCondition: MemberSearchCondition, pageable: Pageable): PageImpl<MemberTeamDto> {
+    val content = queryFactory
+        .select(QMemberTeamDto( ... )
+        .from(member)
+        .leftJoin(member.team, team)
+        .where( conditionCheck(searchCondition) )
+        .offset(pageable.offset)
+        .limit(pageable.pageSize.toLong())
+        .fetch()
+
+    val count = queryFactory
+        .selectFrom(member)
+        .where( conditionCheck(searchCondition) )
+        .fetchCount()
+
+    val content = results.results
+    return PageImpl(content, pageable, count)
+}
+
+```
+
+카운트 쿼리가 효율적으로 되었지만 카운트 쿼리가 필요없는 경우가 간혹 있을 수 있다.
+마지막 페이지에서 pageSize 보다 결과물이 작을때는 offset + content의 사이즈를 더한 값이 바로 total count이기 때문이다.
+그렇게 count query를 조건에따라 조회하는 유틸이 바로 `PageableExecutionUtils`이다.
+
+```
+fun searchByUseExecutionUtils(searchCondition: MemberSearchCondition, pageable: Pageable): Page<MemberTeamDto> {
+    val content = queryFactory
+        .select(QMemberTeamDto( ... )
+        .from(member)
+        .leftJoin(member.team, team)
+        .where( conditionCheck(searchCondition) )
+        .offset(pageable.offset)
+        .limit(pageable.pageSize.toLong())
+        .fetch()
+
+    val countQuery = queryFactory
+        .selectFrom(member)
+        .leftJoin(member.team, team)
+        .where( conditionCheck(searchCondition) )
+
+    return PageableExecutionUtils.getPage(content, pageable) {
+        countQuery.fetchCount()
+    }
+}
+```
+
+## Sorting
+Pageable의 Sort 객체를 이용하여 OrderSpecifier로 변환하여 QueryDSL에서 쉽게 Sorting이 가능
+하지만 Join이 들어가있는 상태에서 동적 정렬기능이 들어가면 결과가 이상하게 나오기 떄문에 직접 파라메터를 받아서 수동으로 Orderby하는것을 추천
+
+``` kotlin
+fun orderTest(pageable: Pageable): List<Member> {
+    val query = queryFactory.selectFrom(member)
+    pageable.sort.forEach {
+        query.orderBy(OrderSpecifier(
+            if (it.isAscending) com.querydsl.core.types.Order.ASC
+            else com.querydsl.core.types.Order.DESC,
+            PathBuilder(member.type, member.metadata).get(it.property) as PathBuilder<Nothing>
+        ))
+    }
+    return query.fetch()
+}
+```
+
+
+
+
+
+
+## QueryDSL 동시성 이슈
+QueryDsl은 기본적으로 생성시 EntityManager에 전적으로 의존하게된다.
+EntityManager는 Transaction 단위로 스프링에서 할당해주기 때문에 동시성이슈가 발생하지 않게된다.
+Spring에서는 EntityManager가 프록시 객체를 주입해줌으로써 각각의 Transaction별로 바인딩 되도록 라우팅해준다.
+
+
+## Spring Data JPA에서 제공하는 QueryDSL 기능
+
+해당 기능들은 복잡한 쿼리에서는 사용하면 안되고 간단한 단일 테이블 쿼리에서만 사용하는것을 권장
+
+### QuerydslPredicateExecutor
+``` kotlin
+interface MemberRepository : JpaRepository<Member, Long>, QuerydslPredicateExecutor<Member>
+
+@Test
+fun querydslPredicateExecutorTest() {
+    val members = memberRepository.findAll(
+        member.age.between(20, 40)
+            .and(member.name.eq("member1"))
+    )
+}
+```
+단점
+- 묵시적인 조인이 가능하긴 하지만 일반적인 조인이 불가능하다 (left join)
+- QueryDSL이 서비스 계층까지 침범한다. Repository에서만 사용되길 권장
+- 복잡한 경우에서는 사용 불가능
+
+장점
+- Pageable, Sort 모두 지원하고 정상작동함
+
 
 
