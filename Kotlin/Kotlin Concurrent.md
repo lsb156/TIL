@@ -91,3 +91,78 @@ Live Lock은 어플리케이션이 올바르게 실행을 계속할 수 없을 �
 A와 B 둘다 교착상태에서 빠져나오는 로직이 같다고 했을때 둘다 같은 방향으로 변하여 또 다시 서로가 교착이 발생하는 현상을 말한다.
 
 
+
+
+## Kotlin에서의 동시성
+
+코루틴을 다른 스레드로 이동시키는 역할은 런타임이 담당한다.
+
+### NonBlocking
+Thread는 무겁고 생성하는데에 비용이 크다. 그래서 생성하는데도 제한이 있다.
+Thread가 Blocking되면 자원이 심하게 낭비되는 셈이지만 `Kotlin`은 `Suspendable Computations` (중단 가능 연산)을 제공한다
+`Suspendable Computations`은 Thread를 Blocking하지 않으면서 실행을 잠시 중단하고 해당 스레드를 다른 연산에 사용한다.
+
+Kotlin은 Channel(채널), Actors(애겉), Mutural exclusions(상호 배제) 와 같은 기본형도 제공해 스레드를 블록하지 않고 동시성 코드를 효과적으로 통신하고 등기화하는 메커니즘을 제공
+
+> 관례적으로 동시에 실행될 함수는 async로 시작하거나 Async로 끝나도록 이름을 짓도록 한다.
+
+### 유연성
+#### Channel (채널)
+코루틴 간에 데이터를 안전하게 보내고 받는데 사용할 수 있는 Pipe
+
+#### Worker pools(작업자 풀)
+많은 스레드에서 연산 집합의 처리를 나눌 수 있는 코루틴 풀
+
+#### Mutexes (뮤텍스)
+`Critical Zone` 영역을 정의해 한 번에 하나의 스레드만 실행 할 수 있도로 하는 동기화 메커니즘
+`Critical Zone`에 엑세스하려는 코루틴은 이전 코루틴이 `Critical Zone`을 빠져나올 때까지 일시 정지된다.
+
+#### Thread Confinement (스레드 한정)
+코루틴의 실행을 제한해서 지정된 스레드에서만 실행하도록 하는 기능
+
+#### Constructor (생성자)
+필요에 따라 정보를 생성할 수 있고 새로운 정보가 필요하지 않을 때 일시 중단된 수 있는 데이터 소스
+
+### Kotlin의 기능
+#### Suspendable Computations (일시 중단 연산)
+해당 스레드를 차단하지 않고 실행을 일시 중지할수 있는 연산
+`Suspendable Computations`은 Thread를 Blocking하지 않으면서 실행을 잠시 중단하고 해당 스레드를 다른 연산에 사용한다.
+> Suspendable Computations은 다른 일시 중단 함수 또는 코루틴에서만 호출되는 특징이 있다.
+
+#### Suspend Function (일시 중단 함수)
+일시 중단 함수는 함수 형식의 일시 중단 연산
+suspend 연산자를 이용하여 사용된다
+
+#### Suspend Lambda (람다 일시 중단)
+일시중단 람다는 다른 suspend function을 호출함으로 자신의 실행을 중단할 수 있다.
+
+#### Coroutine Dispatcher
+코루틴을 시작하거나 재개할 스레드를 결정하기 위해 코루틴 디스패처가 사용된다.
+모든 코루틴 디스패처는 CoroutineDispatcher 인터페이스를 구현해야 한다.
+- Dispatchers.Default : CPU 사용량이 많은 작업에 사용. Main thread에서 작업하기에는 너무 긴 작업에 최적화
+- Dispatchers.IO : 네트워크, 디스크 사용 할때 사용. 파일 읽고, 쓰고, 소켓을 읽고, 쓰고 작업을 멈추는것에 최적화
+- Dispatchers.Main : 안드로이드의 경우 UI 스레드를 사용
+- Dispatchers.Unconfined : 현재 스레드(코루틴이 호출된 스레드)에서 코루틴을 시작하지만 어떤 스레드에서도 코루틴이 다시 재개될 수 있다. Dispatcher에는 스레드 정책을 사용하지 않는다.
+
+> Dispatchers.Main은 `kotlinx-coroutines-android`를 추가해주어야한다.
+
+Dispatcher와 같께 필요에 따라 Pool 또는 Thread를 정의하는데 사용할 수 있는 빌더
+- `newSingleThreadContext()` : 생성되면 필요한 만큼 많은 코루틴을 수행하는데 사용할 수 있다.
+- `newFixedThreadPoolContext()` : 스레드 풀 생성
+
+#### Coroutine Builder
+##### async
+결과가 예상되는 코루틴을 시작하는데 사용
+async는 코루틴 내부에서 일어나는 모든 예외를 캡처해서 결과에 넣기 때문에 조심해서 사용해야 한다.  
+결과 또는 예외를 초함하는 `Deferred<T>를` 반환
+
+##### launch
+결과를 반환하지 않는 코루틴을 시작
+자체 혹은 자식 코루틴의 실행을 취소하기 위해 사용하는 `Job`을 반환
+
+##### runBlocking
+블로킹 코드를 일시 중지 가능한 코드로 연결하기 위해 존재
+main 메소드와 유닛 테스트에서 사용
+runBlocking은 코루틴의 실행이 끝날 때까지 현재 스레드를 차단
+
+
