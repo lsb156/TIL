@@ -166,3 +166,98 @@ main 메소드와 유닛 테스트에서 사용
 runBlocking은 코루틴의 실행이 끝날 때까지 현재 스레드를 차단
 
 
+
+## Async, Launch
+### Async
+결과 처리를 목적으로 코루틴을 시작했다면 async를 사용해야 한다.  
+async는 `Deferred<T>` 타입을 반환하는데 Deferred Coroutine framework에서 제공하는 취소 불가능한 `non-blocking cancellable future`를 의미하며 T는 그 결과의 유형을 나타낸다.
+async() 블록안에서 발생되는 예외는 Deferred 객체 내부에 포함되어 리턴된다.  
+이는 async 내부에서 에러가 발생되더라도 애플리케이션이 중단되지도 않고 상위로 전파되지도 않음을 의미힌다.
+
+``` kotlin
+fun main(args: Array<String>) = runBlocking {
+    val task = GlobalScope.async {
+        doSomething()
+    }
+
+    task.join()
+
+    if (task.isCancelled) {
+        val exception = task.getCancellationException()
+        println("Error with message: ${exception.cause}")
+    } else {
+        println("Success")
+    }
+}
+
+fun doSomething() {
+    throw UnsupportedOperationException("Can't do")
+}
+```
+예외 전파를 위해 join()이 아닌 await()으로 변경을 하면 Exception이 발생하며 애플리케이션이 중단된다.
+await()을 사용하여 호출할시에 Deferred는 예외를 감싸지 않고 전파하는 `unwrapping deferred`이다.
+
+``` kotlin
+fun main(args: Array<String>) = runBlocking {
+    val task = GlobalScope.async {
+        doSomething()
+    }
+
+    // This code will have the exception be propagated
+    task.await()
+    println("Completed")
+}
+
+fun doSomething() {
+    throw UnsupportedOperationException("Can't do")
+}
+```
+
+### Launch
+결과를 반환하지 않는 코루틴을 시작하려면 launch()를 사용해야 한다.
+launch()는 연산이 실패한 경우에만 통보 받기를 원하는 Fire-and-forget 시나리오를 위해 설계 되었으며
+필요할 때 취소할 수 있는 함수도 함께 제공된다.
+
+> **fire-and-forget scenario**
+> 이벤트 메시지 기반 시스템에서 널리 활용되는 패턴으로 미사일 발사 후 미사일을 잊고 있어도 알아서 표적에 명중한다는 것으로
+> 실행 후 결과에 대해 신경 쓸 필요 없는 경우와 같은 시나리오를 의미
+
+``` kotlin
+fun main(args: Array<String>) = runBlocking {
+    val task = GlobalScope.launch {
+        doSomething()
+    }
+    task.join()
+    println("completed")
+}
+
+suspend fun doSomething() {
+    delay(100)
+    println("Half-way to crash")
+    delay(100)
+    throw UnsupportedOperationException("Can't do")
+}
+```
+실행하면 Exception에 대한 stack이 출력이 되지만 비정상적인 종료가 이루어지지 않는다.
+launch에서 발생한 에러에 대해서 전파가 되지 않는것을 확인 할 수 있다.
+
+``` kotlin
+fun main(args: Array<String>) = runBlocking {
+    val netDispatcher = newSingleThreadContext(name = "ServiceCall")
+    val task = GlobalScope.launch(netDispatcher) {
+        printCurrentThread()
+    }
+    task.join()
+}
+
+fun printCurrentThread() {
+    println("Running in thread [${Thread.currentThread().name}]")
+}
+```
+### 적절하게 비동기 사용하는 팁과 환경
+- 함수가 여러곳에서 호출된다면 launch()나 async()로 동기 함수를 감싸는것이 좋다. (동시성과 가독성이 좋아진다)
+- 비동기 함수에는 Async를 함수명에 붙여주도록해야한다. (파악하기 힘든것보다 사용하지 않는것이 낫다)
+- 동기와 비동기 구현을 동일한 함수에서 모두 제공할 필요는 없다. 어떠한 비용이 들더라도 이것은 피해야한다.
+- 일관성을 지키기 위해서 하나의 접근 방법을 사용하도록 해야한다. 표준의 부재와 일관성의 부재는 코드의 가독성에 영향을 주고 버그를 초래한다.
+
+
