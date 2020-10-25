@@ -78,6 +78,7 @@
 ## ETC
 - [PowerApps 샘플 앱 만들기](ETC/PowerApps%20샘플%20앱%20만들기.md)
 - [Requery](ETC/Requery.md)
+- [시간복잡도 공간복잡도](ETC/시간복잡도%20공간복잡도.md)
 - [마이크로서비스의 이해](MSA/마이크로서비스의%20이해.md)
 - [Api Gateway](MSA/Api%20Gateway.md)
 
@@ -85,7 +86,8 @@
 - OOP
   - [객체지향 개발 5대 원칙 (SOLID)](https://velog.io/@lsb156/%EA%B0%9D%EC%B2%B4%EC%A7%80%ED%96%A5-%EA%B0%9C%EB%B0%9C-5%EB%8C%80-%EC%9B%90%EC%B9%99-SOLID)
   - [GRASP (object-oriented design)](https://velog.io/@lsb156/GRASP-object-oriented-design)
-
+  - [공변성, 반공변성, 무공변성이란?)](https://velog.io/@lsb156/covariance-contravariance)
+  
 - Spring Boot
   - [Spring Boot - Properties 사용법](https://velog.io/@lsb156/Spring-Boot-Properties-Usage)
   - [Wavefront Sample 정리](https://velog.io/@lsb156/Spring-Boot-Wavefront-Sample-%EC%A0%95%EB%A6%AC)
