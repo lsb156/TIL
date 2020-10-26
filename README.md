@@ -28,13 +28,16 @@
 - [JPA Spring Boot 기본 설정](JPA/JPA%20Spring%20Boot%20기본%20설정.md)
 
 ## Architecture
+- OOP
+  - [Encapsulation](Architecture/OOP/Encapsulation.md)
+  - [Polymorphism](Architecture/OOP/Polymorphism.md)
 - [Hexagonal Architecture](Architecture/Hexagonal%20Architecture.md)
 - [Richardson Maturity Model](Architecture/Richardson%20Maturity%20Model.md)
 
 ## Java
-- [JVM 구조](Java/JVM%20구조.md)
-- [Java Database](Java/Java%20Database.md)
 - [Garbage Collection](Java/Garbage%20Collection.md)
+- [Java Database](Java/Java%20Database.md)
+- [JVM 구조](Java/JVM%20구조.md)
 - [LocalDateTime vs Instance.md](Java/LocalDateTime%20vs%20Instance.md)
 
 ## Test
