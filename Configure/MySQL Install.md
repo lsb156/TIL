@@ -35,6 +35,9 @@ $ sudo /usr/bin/mysql -u root -p
 
 ```
 > CREATE USER '{user_name}'@'localhost' IDENTIFIED BY '{password}'
+# Remote 접속 허용
+> CREATE USER '{user_name}'@'123.456.%' IDENTIFIED BY '{password}'
+
 > SELECT User, Host, authentication_string FROM mysql.user;
 +------------------+-----------+------------------------------------------------------------------------+
 | User             | Host      | authentication_string                                                  |
@@ -48,9 +51,11 @@ $ sudo /usr/bin/mysql -u root -p
 +------------------+-----------+------------------------------------------------------------------------+
 
 # 전체 DB에 대한 권한  
-> GRANT ALL PRIVILEGES ON * to {user_name}@localhost;
+> GRANT ALL PRIVILEGES ON *.* to {user_name}@localhost;
 # 특정 DB에 대한 권한
 > GRANT ALL PRIVILEGES ON {database_name}.* to {user_name}@localhost;
+
+
 > FLUSH PRIVILEGES
 > SHOW GRANTS FOR '{user_name}'@'localhost'
 +--------------------------------------------------------------------------+
