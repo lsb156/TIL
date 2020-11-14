@@ -199,7 +199,7 @@ void openJdk() {
 ### RepeatedTest
 ``` java
 @DisplayName("반복 테스트")
-@RepeatedTest(value = 10, name = "{displayName}, {currentRepetition} / {totalRepotition}")
+@RepeatedTest(value = 10, name = "{displayName}, {currentRepetition} / {totalRepetitions}")
 void repeatedTest(RepetitionInfo info) {
     System.out.println("test : " + info.getCurrentRepetition() + ", " 
         + info.getTotalCurrentRepetition()); 
