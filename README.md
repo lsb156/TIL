@@ -18,14 +18,18 @@
 - [Hikari CP](SpringBoot/Hikari%20CP.md)
 
 ## JPA
-- [JPA에 대해서](JPA/JPA%20프로그래밍%20기본/01_JPA에%20대해서.md)
-- [Entity Mapping](JPA/JPA%20프로그래밍%20기본/02_Entity%20Mapping.md)
-- [연관관계 맵핑](JPA/JPA%20프로그래밍%20기본/03_연관관계%20맵핑.md)
-- [Proxy](JPA/JPA%20프로그래밍%20기본/04_Proxy.md)
-- [Value Type](JPA/JPA%20프로그래밍%20기본/05_Value%20Type.md)
-- [JPQL](JPA/JPA%20프로그래밍%20기본/06_JPQL.md)
-- [기타 JPA 기능](JPA/JPA%20프로그래밍%20기본/07_기타%20JPA%20기능.md)
+- [JPA 프로그래밍 기본](JPA/JPA%20프로그래밍%20기본)
+    - [JPA에 대해서](JPA/JPA%20프로그래밍%20기본/01_JPA에%20대해서.md)
+    - [Entity Mapping](JPA/JPA%20프로그래밍%20기본/02_Entity%20Mapping.md)
+    - [연관관계 맵핑](JPA/JPA%20프로그래밍%20기본/03_연관관계%20맵핑.md)
+    - [Proxy](JPA/JPA%20프로그래밍%20기본/04_Proxy.md)
+    - [Value Type](JPA/JPA%20프로그래밍%20기본/05_Value%20Type.md)
+    - [JPQL](JPA/JPA%20프로그래밍%20기본/06_JPQL.md)
+    - [기타 JPA 기능](JPA/JPA%20프로그래밍%20기본/07_기타%20JPA%20기능.md)
+- [JPA Auditing](JPA/JPA%20Auditing.md)
+- [JPA Optimistic Lock Pessimistic Lock](JPA/JPA%20Optimistic%20Lock%20Pessimistic%20Lock.md)
 - [JPA Spring Boot 기본 설정](JPA/JPA%20Spring%20Boot%20기본%20설정.md)
+- [QueryDsl](JPA/QueryDsl.md)
 
 ## Architecture
 - OOP
@@ -65,6 +69,7 @@
 
 ## Docker
 - [docker](Docker/docker.md)
+- [Jenkins DooD 설정](Docker/Jenkins-dood.md)
 - [Kubernates](Docker/Kubernates.md)
 
 
@@ -74,7 +79,7 @@
 ## Configure
 - [Amazon EC2 환경 셋팅](Configure/Amazon%20EC2%20환경%20셋팅.md)
 - [KotlinDSL Multi Module](Configure/KotlinDSL%20Multi%20Module.md)
-- [MySQL Install](Configure/MySQL Install.md)
+- [MySQL Install](Configure/MySQL%20Install.md)
 - [Nginx 설정](Configure/Nginx%20설정.md)
 - [TraviceCI CodeDeploy를 이용한 배포](Configure/TraviceCI%20CodeDeploy를%20이용한%20배포.md)
 - [Test Database in Docker](Configure/Test%20Database%20in%20Docker.md)
