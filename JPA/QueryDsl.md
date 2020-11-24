@@ -2,6 +2,43 @@
 복잡한 쿼리를 Java 언어로 제공하여줌으로 컴파일 시점에 문법 오류를 찾을 수 있고 복잡한 쿼리를 쉽게 작성할 수 있다.
 
 ## 설정
+``` gradle
+plugins {
+    id 'org.springframework.boot' version '2.3.5.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.10.RELEASE'
+    id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
+    id 'java'
+}
+
+dependencies {
+    /* 혹시나 추가 모듈이 있는 경우 configuration까지 같이 넘겨야한다. */
+    implementation project(path: ':core', configuration: 'default')
+
+
+    implementation 'com.querydsl:querydsl-jpa'
+}
+   
+def querydslDir = "$buildDir/generated/querydsl"
+
+querydsl {
+    jpa = true
+    querydslSourcesDir = querydslDir
+}
+
+sourceSets {
+    main.java.srcDir querydslDir
+}
+
+configurations {
+    querydsl.extendsFrom compileClasspath
+}
+
+compileQuerydsl {
+    options.annotationProcessorPath = configurations.querydsl
+}
+```
+
+
 ``` kotlin
 // build.gradle.kt
 plugins {
