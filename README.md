@@ -67,6 +67,7 @@
 
 ## Database
 - [Transaction Isolation Level](Database/Transaction%20Isolation%20Level.md)
+- [Offline PessimisticLock](Database/Offline%20PessimisticLock.md)
 - [Index](Database/Index.md)
 - [Redis](Database/Redis.md)
 - [Sharding](Database/Sharding.md)
