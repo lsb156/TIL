@@ -28,7 +28,7 @@
     - [기타 JPA 기능](JPA/JPA%20프로그래밍%20기본/07_기타%20JPA%20기능.md)
 - [JPA Auditing](JPA/JPA%20Auditing.md)
 - [JPA Optimistic Lock Pessimistic Lock](JPA/JPA%20Optimistic%20Lock%20Pessimistic%20Lock.md)
-- [JPA Spring Boot 기본 설정](JPA/JPA%20Spring%20Boot%20기본%20설정.md)
+- [JPA H2 Spring Boot 기본 설정](JPA/JPA%20H2%20Spring%20Boot%20기본%20설정.md)
 - [QueryDsl](JPA/QueryDsl.md)
 
 ## Architecture
