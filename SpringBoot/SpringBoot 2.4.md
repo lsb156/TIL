@@ -83,3 +83,14 @@ server.servlet.register-default-servlet=true
 
 ## ConfigurationProperties
 `@ConstructorBinding`를 이용하여 기존에 필수였었던 `Setter`를 명시 안해도 됩니다.
+
+## Properties Migration
+gradle에 `spring-boot-properties-migrator`를 추가하고 실행하면 없에야할  설정들을 알려주거나 대체할 항목을 안내해준다.
+
+## Properties Duration
+properties에 있는 값을 바로 Durationd으로 사용이 가능하다.
+`1s`, `1h`, `1m` 과 같은 단위를 사용 가능하며
+`1`이라고 지정을 해놓고 `@DurationUnit(CronoUnit.SECONDS)` 형태로 지정이 가능
+
+`properties`에서 가져올 key값이 예약어일 경우 `@Name` 으로 가져올 수 있다.
+
