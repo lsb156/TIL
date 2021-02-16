@@ -1,0 +1,18 @@
+version: "3.7"
+
+services:
+  hangame_jenkins:
+    image: jenkins/jenkins:lts
+    container_name: hangame-jenkins
+    restart: always
+    ports:
+      - 9900:8080
+      - 9901:50000
+      - 41610:41610
+    volumes:
+      - jenkins:/var/jenkins_home
+    environment:
+      TZ: "Asia/Seoul"
+
+volumes:
+  jenkins:
