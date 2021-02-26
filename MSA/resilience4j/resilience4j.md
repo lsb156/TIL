@@ -50,7 +50,6 @@ CircuitBreaker는는 슬라이딩 윈도우를 사용하여 호출 결과를 저
 |automaticTransitionFromOpenToHalfOpenEnabled|true: waitDurationInOpenState 시간 이후에 바로 HALF_OPEN 으로 전환 <br/> false: waitDurationInOpenState 시간 이후에 추가적인 호출이 성공적인 상태여야 OPEN으로 전환이된다. |false|
 |recordExceptions|failure count를 증가시켜야하는 exception list||
 |ignoreExceptions|failure count를 증가시키지 않고 무시하는 exception list||
-
 |recordException|Failure Count를 증가시키는 Predicate를 정의<br/>true를 return할 경우, failure count를 증가|throwable-> true|
 |ignoreException|Failure Count를 무시하 Predicate를 정의<br/>true를 리턴하는경우 무시|throwable-> false|
 
