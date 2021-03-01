@@ -14,6 +14,8 @@ Resilience4j에는 다음과 같은 구현체들이 존재한다.
   - [resilience-ratelimiter](resilience-ratelimiter.md)
   - [resilience-ratelimiter-example](resilience-ratelimiter-example.md)
 - Bulkhead
+  - [resilience-bulkhead](resilience-bulkhead.md)
+  - [resilience-bulkhead-example](resilience-bulkhead-example.md)
 - Time Limiter
 - Retry
 - Cache
