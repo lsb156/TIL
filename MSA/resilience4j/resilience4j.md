@@ -20,3 +20,4 @@ Resilience4j에는 다음과 같은 구현체들이 존재한다.
   - [resilience-timelimiter](resilience-timelimiter.md)
 - Retry
 - Cache
+  - [resilience-cache](resilience-cache.md)
