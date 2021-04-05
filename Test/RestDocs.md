@@ -30,7 +30,12 @@ bootJar {
 dependencies {
     ...
     testImplementation('org.springframework.boot:spring-boot-starter-test')
-    testImplementation('org.springframework.restdocs:spring-restdocs-mockmvc') // (5)
+    testImplementation('org.springframework.restdocs:spring-restdocs-mockmvc')
+
+    // Rest-assured
+    testImplementation('io.rest-assured:rest-assured:3.0.2')
+	testImplementation('org.springframework.restdocs:spring-restdocs-restassured')
+
 }
 
 ```
