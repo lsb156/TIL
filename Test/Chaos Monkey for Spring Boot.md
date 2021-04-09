@@ -3,7 +3,7 @@
 카오스 엔지니어링(Chaos Engineering)이란 프로덕션 서비스의 각종 장애 조건을 견딜 수 있는 시스템의 신뢰성을 확보하기 위해 분산 시스템을 실험 하고 배우는 분야
 실제 프로덕션 상황에서 임의의 장애, 지연, 서버다운을 일으켜, 전체 MSA 시스템이 탄력있게 반응하는지 확인하는 Fault Injection Test(FIT) 에서 유래
 
-![chaos-monkey](../asset/Test/chaos-monkey.png)
+![chaos-monkey](../asset/Test/chaosmonkey/chaos-monkey.png)
 
 [Chaos Monkey란](https://codecentric.github.io/chaos-monkey-spring-boot/) `Annotaion`으로 찾아가 장애를 발생시키며, `Spring Boot Actuator`를 이용하여 설정이 가능 (장애 발생조건 및 활성 비활성)
 
