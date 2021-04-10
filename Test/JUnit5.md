@@ -7,7 +7,7 @@ Spring Boot 2.2에서 `JUnit4` -> `JUnit5`로 업데이트
 
 
 ## JUnit 5 기초
-![tdd-junit5-package](../asset/Test/tdd-junit5-package.png)
+![tdd-junit5-package](../asset/Test/tdd/tdd-junit5-package.png)
 
 JUnit5는 크게 세 개의 요소로 구성되어 있다.
 - **JUnit Platform** - 테스팅 프레임워크를 구동하기 위한 런처와 테스트 엔진을 위함 API 제공
