@@ -9,7 +9,7 @@ TDD는 테스트부터 시작한다.
 
 테스트코드를 작성할 때 `src/main/java`에 먼저 만들기 보다는 `src/test/java`에 먼저 구현한뒤 테스트 코드가 완성되면 `src/main/java`로 이동한다. 이렇게 한다면 완성되지 않은 코드가 배포되는 것을 방지하는 효과가 있다.
 
-![tdd-cycle](../asset/Test/tdd-cycle.png)
+![tdd-cycle](../asset/Test/tdd/tdd-cycle.png)
 1. 항상 실패하는 테스트를 먼저 작성 (Red)
 2. 테스트가 통과하는 프로덕션 코드를 작성 (Green)
 3. 테스트가 통과하면 프로덕션 코드를 리팩토링 (Refactor)
