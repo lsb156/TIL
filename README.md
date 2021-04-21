@@ -5,17 +5,13 @@
 
 <!--[TOC]: # "## Table of Contents"-->
 
-## Spring
-- [Spring의 기본 구조](Spring/Spring의%20기본%20구조.md)
-- [Spring - AOP](Spring/Spring%20-%20AOP.md)
-- [Spring Transactional](Spring/Spring%20Transactional.md)
-
-## Spring Boot
-- [스프링 부트로 배우는 자바 웹 개발](SpringBoot/스프링%20부트로%20배우는%20자바%20웹%20개발.md)
-- [Spring Data JPA](SpringBoot/Spring%20Data%20JPA.md)
-- [Spring OAuth GCC 연동](SpringBoot/Spring%20OAuth%20GCC%20연동.md)
-- [WebFlux](SpringBoot/WebFlux.md)
-- [Hikari CP](SpringBoot/Hikari%20CP.md)
+## Java
+- [CovarianceAndContravariance](Java/CovarianceAndContravariance.md)
+- [Garbage Collection](Java/Garbage%20Collection.md)
+- [Generic](Java/Generic.md)
+- [Java Database](Java/Java%20Database.md)
+- [JVM 구조](Java/JVM%20구조.md)
+- [LocalDateTime vs Instance.md](Java/LocalDateTime%20vs%20Instance.md)
 
 ## JPA
 - [JPA 프로그래밍 기본](JPA/JPA%20프로그래밍%20기본)
@@ -27,8 +23,9 @@
     - [JPQL](JPA/JPA%20프로그래밍%20기본/06_JPQL.md)
     - [기타 JPA 기능](JPA/JPA%20프로그래밍%20기본/07_기타%20JPA%20기능.md)
 - [JPA Auditing](JPA/JPA%20Auditing.md)
-- [JPA Optimistic Lock Pessimistic Lock](JPA/JPA%20Optimistic%20Lock%20Pessimistic%20Lock.md)
 - [JPA H2 Spring Boot 기본 설정](JPA/JPA%20H2%20Spring%20Boot%20기본%20설정.md)
+- [JPA Optimistic Lock Pessimistic Lock](JPA/JPA%20Optimistic%20Lock%20Pessimistic%20Lock.md)
+- [JPA 2차 캐시](JPA/JPA%202차%20캐시.md)
 - [QueryDsl](JPA/QueryDsl.md)
 
 ## Architecture
@@ -37,23 +34,6 @@
   - [Polymorphism](Architecture/OOP/Polymorphism.md)
 - [Hexagonal Architecture](Architecture/Hexagonal%20Architecture.md)
 - [Richardson Maturity Model](Architecture/Richardson%20Maturity%20Model.md)
-
-## Java
-- [Garbage Collection](Java/Garbage%20Collection.md)
-- [Java Database](Java/Java%20Database.md)
-- [JVM 구조](Java/JVM%20구조.md)
-- [LocalDateTime vs Instance.md](Java/LocalDateTime%20vs%20Instance.md)
-
-## Test
-- [Archunit](Test/Archunit.md)
-- [BDD](Test/BDD.md)
-- [Chaos Monkey for Spring Boot](Test/Chaos%20Monkey%20for%20Spring%20Boot.md)
-- [JMeter](Test/JMeter.md)
-- [JUnit5](Test/JUnit5.md)
-- [Mockito](Test/Mockito.md)
-- [TDD란?](Test/TDD란%3F.md)
-- [TestContainers](Test/TestContainers.md)
-- [테스트 주도개발 시작하기](Test/테스트%20주도개발%20시작하기.md)
 
 
 ## Kotlin
@@ -79,7 +59,17 @@
 
 
 ## Network
+- [DNS 확인 과정](Network/DNS%20확인%20과정.md)
+- [HTTP](Network/HTTP.md)
+- [Linux에서 Network 관련 유용한 명령어](Network/Linux에서%20Network%20관련%20유용한%20명령어.md)
 - [OSI 7 Layer - L4 vs L7](Network/OSI%207%20Layer%20-%20L4%20vs%20L7.md)
+- [PING 요청을 막는 3가지 방법](Network/PING%20요청을%20막는%203가지%20방법.md)
+- [Socket](Network/Socket.md)
+- [SubNetting](Network/SubNetting.md)
+- [Switch vs Router](Network/Switch%20vs%20Router.md)
+- [TCP](Network/TCP.md)
+- [UDP](Network/UDP.md)
+- [URI_URL_URN](Network/URI_URL_URN.md)
 
 ## Configure
 - [Amazon EC2 환경 셋팅](Configure/Amazon%20EC2%20환경%20셋팅.md)
@@ -95,6 +85,38 @@
 - [시간복잡도 공간복잡도](ETC/시간복잡도%20공간복잡도.md)
 - [마이크로서비스의 이해](MSA/마이크로서비스의%20이해.md)
 - [Api Gateway](MSA/Api%20Gateway.md)
+
+## Spring
+- [Api 설계 방법](Spring/Api%20설계%20방법.md)
+- [HATEOAS](Spring/HATEOAS.md)
+- [Spring - AOP](Spring/Spring%20-%20AOP.md)
+- [Spring Batch](Spring/Spring%20Batch.md)
+- [Spring Transactional](Spring/Spring%20Transactional.md)
+- [Spring의 기본 구조](Spring/Spring의%20기본%20구조.md)
+
+## Spring Boot
+- [Hikari CP](SpringBoot/Hikari%20CP.md)
+- [Spring Data JPA](SpringBoot/Spring%20Data%20JPA.md)
+- [Spring OAuth GCC 연동](SpringBoot/Spring%20OAuth%20GCC%20연동.md)
+- [Hikari CP](SpringBoot/Hikari%20CP.md)
+- [WebFlux](SpringBoot/WebFlux.md)
+- [스프링 부트로 배우는 자바 웹 개발](SpringBoot/스프링%20부트로%20배우는%20자바%20웹%20개발.md)
+
+## Test
+- [Archunit](Test/Archunit.md)
+- [BDD](Test/BDD.md)
+- [Chaos Monkey for Spring Boot](Test/Chaos%20Monkey%20for%20Spring%20Boot.md)
+- [jacoco](Test/jacoco.md)
+- [JMeter](Test/JMeter.md)
+- [JUnit5](Test/JUnit5.md)
+- [kotest](Test/kotest.md)
+- [Mockito](Test/Mockito.md)
+- [Mockk](Test/Mockk.md)
+- [RestDocs](Test/RestDocs.md)
+- [SonarQube](Test/SonarQube.md)
+- [TDD란?](Test/TDD란%3F.md)
+- [TestContainers](Test/TestContainers.md)
+- [테스트 주도개발 시작하기](Test/테스트%20주도개발%20시작하기.md)
 
 ## Velog
 - OOP
