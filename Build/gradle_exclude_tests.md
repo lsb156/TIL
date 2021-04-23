@@ -17,12 +17,13 @@ test {
         
         // 지정 메소드 test 제외 (excludeTest).
         excludeTest "com.ssabae.ExcludeTest", "someTestMethod"
-        
-        
-        includeTestsMatching "com.ssabae.exclude.package.*"
-        includeTest "com.ssabae.ExcludeTest", "someTestMethod"
-    
     }
+}
+```
+### 다른 문법
+```groovy
+test {
+    exclude 'com/ssabae/exclude/**'
 }
 ```
 
@@ -34,5 +35,4 @@ test {
         includeTest "com.ssabae.ExcludeTest", "someTestMethod"
     }
 }
-
 ```
