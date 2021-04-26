@@ -60,7 +60,7 @@
 
 ## Network
 - [DNS 확인 과정](Network/DNS%20확인%20과정.md)
-- [HTTP](Network/HTTP.md)
+- [HTTP](Network/http/HTTP.md)
 - [Linux에서 Network 관련 유용한 명령어](Network/Linux에서%20Network%20관련%20유용한%20명령어.md)
 - [OSI 7 Layer - L4 vs L7](Network/OSI%207%20Layer%20-%20L4%20vs%20L7.md)
 - [PING 요청을 막는 3가지 방법](Network/PING%20요청을%20막는%203가지%20방법.md)
