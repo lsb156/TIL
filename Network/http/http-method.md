@@ -63,5 +63,65 @@ Content-Type: application/json
   - 실제로는 GET, HEAD 정도만 캐시로 사용
     - POST, PATCH는 본문 내용까지 캐시 키로 고려해야 하는데, 구현이 쉽지 않음
 
-![http-properties](../../asset/network/http/http-properties.png)
+![http-properties](../../asset/Network/http/http-properties.png)
+
+
+## HTTP API 설계 예시
+
+
+- HTTP API - 컬렉션
+  - POST 기반 등록
+  - 예) 회원 관리 API 제공
+- HTTP API - 스토어
+  - PUT 기반 등록
+  - 예) 정적 컨텐츠 관리, 원격 파일 관리 HTML FORM 사용
+- HTML FORM 사용
+  - 웹 페이지 회원 관리
+  - GET, POST만 지원
+
+### 회원관리
+Post 기반 등록
+- 회원 목록 /members -> GET
+- 회원 등록 /members -> POST
+- 회원 조회 /members/{id} -> GET
+- 회원 수정 /members/{id} -> PATCH, PUT, POST
+- 회원 삭제 /members/{id} -> DELETE
+
+
+### 파일 관리 시스템 API 설계
+PUT 기반 등록
+- 파일 목록 /files -> GET
+- 파일 조회 /files/{filename} -> GET
+- 파일 등록 /files/{filename} -> PUT
+- 파일 삭제 /files/{filename} -> DELETE
+- 파일 대량 등록 /files -> POST
+
+### HTML FORM 사용
+- 회원 목록  /members -> GET
+- 회원 등록  폼 /members/new -> GET
+- 회원 등록  /members/new, /members -> POST
+- 회원 조회  /members/{id} -> GET
+- 회원 수정  폼 /members/{id}/edit -> GET
+- 회원 수정  /members/{id}/edit, /members/{id} -> POST
+- 회원 삭제  /members/{id}/delete -> POST
+
+
+
+## 참고하면 좋은 URI 설계 개념
+- 문서(document)
+    - 단일 개념(파일 하나, 객체 인스턴스, 데이터베이스 row)
+    - 예) /members/100, /files/star.jpg
+- 컬렉션(collection)
+  - 서버가 관리하는 리소스
+  - 디렉터리 서버가 리소스의 URI를 생성하고 관리
+  - 예) /members
+- 스토어(store)
+  - 클라이언트가 관리하는 자원 저장소
+  - 클라이언트가 리소스의 URI를 알고 관리
+  - 예) /files
+- 컨트롤러(controller), 컨트롤 URI
+  - 문서, 컬렉션, 스토어로 해결하기 어려운 추가 프로세스 실행
+  - 동사를 직접 사용
+  - 예) /members/{id}/delete
+
 
