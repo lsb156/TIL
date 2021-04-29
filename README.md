@@ -112,7 +112,7 @@
 - [kotest](Test/kotest.md)
 - [Mockito](Test/Mockito.md)
 - [Mockk](Test/Mockk.md)
-- [RestDocs](Test/RestDocs.md)
+- [RestDocs](Documentation/RestDocs.md)
 - [SonarQube](Test/SonarQube.md)
 - [TDD란?](Test/TDD란%3F.md)
 - [TestContainers](Test/TestContainers.md)
@@ -146,5 +146,3 @@
 
 - DATABASE
   - [Transaction Isolation Level 정리](https://velog.io/@lsb156/Transaction-Isolation-Level)
-
-
