@@ -7,8 +7,7 @@
 - 4xx (Client Error): 클라이언트 오류, 잘못된 문법등으로 서버가 요청을 수행할 수 없음
 - 5xx (Server Error): 서버 오류, 서버가 정상 요청을 처리하지 못함
 
-![http-status-ranges](../../asset/Network/http/http-status-ranges.png)
-
+![http-status-ranges](../../asset/Network/http/http-status-ranges.png)<!-- @IGNORE PREVIOUS: link -->
 ## Status
 ### 1xx (Informational)
 요청이 수신되어 처리중 상태
