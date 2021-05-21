@@ -21,3 +21,5 @@ HATEOAS는 기본적으로 `links` 아래 link들을 만들어준다.
 해당 `Bean`을 등록하는데 이 과정에서 `Jackson2HalModule`을 `ObjectMapper`에 등록하게된다.
 
 그래서 controller를 mockking 하여 테스트를 돌려보면 `_links`가 아닌 `links`로 리턴하게 되는것을 볼 수 있다.
+
+> Hal+json 메시지 컨버터는 Spring Hateoas뿐만 아니라 Spring Cloud OpenFeign에서도 등록한다.
