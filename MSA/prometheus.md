@@ -21,3 +21,9 @@
 ```
 docker exec prometheus kill -SIGHUP 1 
 ```
+
+
+shell command
+```
+docker -D exec -it prometheus sh
+```
