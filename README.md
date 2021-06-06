@@ -15,13 +15,13 @@
 
 ## JPA
 - [JPA 프로그래밍 기본](JPA/JPA%20프로그래밍%20기본)
-    - [JPA에 대해서](JPA/JPA%20프로그래밍%20기본/01_JPA에%20대해서.md)
-    - [Entity Mapping](JPA/JPA%20프로그래밍%20기본/02_Entity%20Mapping.md)
-    - [연관관계 맵핑](JPA/JPA%20프로그래밍%20기본/03_연관관계%20맵핑.md)
-    - [Proxy](JPA/JPA%20프로그래밍%20기본/04_Proxy.md)
-    - [Value Type](JPA/JPA%20프로그래밍%20기본/05_Value%20Type.md)
-    - [JPQL](JPA/JPA%20프로그래밍%20기본/06_JPQL.md)
-    - [기타 JPA 기능](JPA/JPA%20프로그래밍%20기본/07_기타%20JPA%20기능.md)
+  - [JPA에 대해서](JPA/JPA%20프로그래밍%20기본/01_JPA에%20대해서.md)
+  - [Entity Mapping](JPA/JPA%20프로그래밍%20기본/02_Entity%20Mapping.md)
+  - [연관관계 맵핑](JPA/JPA%20프로그래밍%20기본/03_연관관계%20맵핑.md)
+  - [Proxy](JPA/JPA%20프로그래밍%20기본/04_Proxy.md)
+  - [Value Type](JPA/JPA%20프로그래밍%20기본/05_Value%20Type.md)
+  - [JPQL](JPA/JPA%20프로그래밍%20기본/06_JPQL.md)
+  - [기타 JPA 기능](JPA/JPA%20프로그래밍%20기본/07_기타%20JPA%20기능.md)
 - [JPA Auditing](JPA/JPA%20Auditing.md)
 - [JPA H2 Spring Boot 기본 설정](JPA/JPA%20H2%20Spring%20Boot%20기본%20설정.md)
 - [JPA Optimistic Lock Pessimistic Lock](JPA/JPA%20Optimistic%20Lock%20Pessimistic%20Lock.md)
@@ -79,6 +79,19 @@
 - [Kafka compose](MessageQueue/kafka/Kafka%20compose.md)
 
 ## MSA
+  - resilience4j
+    - [resiliance4j-test](MSA/resilience4j/resiliance4j-test.md)
+    - [resilience4j](MSA/resilience4j/resilience4j.md)
+    - [resilience-bulkhead.md](MSA/resilience4j/resilience-bulkhead.md)
+    - [resilience-bulkhead-example.md](MSA/resilience4j/resilience-bulkhead-example.md)
+    - [resilience-cache.md](MSA/resilience4j/resilience-cache.md)
+    - [resilience-circuitbreaker.md](MSA/resilience4j/resilience-circuitbreaker.md)
+    - [resilience-circuitbreaker-example.md](MSA/resilience4j/resilience-circuitbreaker-example.md)
+    - [resilience-ratelimiter.md](MSA/resilience4j/resilience-ratelimiter.md)
+    - [resilience-ratelimiter-example.md](MSA/resilience4j/resilience-ratelimiter-example.md)
+    - [resilience-retry.md](MSA/resilience4j/resilience-retry.md)
+    - [resilience-retry-example.md](MSA/resilience4j/resilience-retry-example.md)
+    - [resilience-timelimiter.md](MSA/resilience4j/resilience-timelimiter.md)
 - [Api Gateway](MSA/Api%20Gateway.md)
 - [Consul_Service_Discovery](MSA/Consul_Service_Discovery.md)
 - [prometheus](MSA/prometheus.md)
@@ -90,18 +103,21 @@
 
 ## Network
 - Http
-    - [HTTP](Network/http/HTTP.md)
-    - [Http Status Code](Network/http/Http%20Status%20Code.md)
-    - [http-method](Network/http/http-method.md)
+  - [HTTP](Network/http/HTTP.md)
+  - [Http Status Code](Network/http/Http%20Status%20Code.md)
+  - [http-method](Network/http/http-method.md)
+- TCP
+  - [Socket](Network/TCP/Socket.md)
+  - [TCP](Network/TCP/TCP.md)
+  - [TCP flag](Network/TCP/TCP flag.md)
+  - [TimeWait.md](Network/TCP/TimeWait.md)
 - [DNS 확인 과정](Network/DNS%20확인%20과정.md)
 - [iptables](Network/iptables.md)
 - [Linux에서 Network 관련 유용한 명령어](Network/Linux에서%20Network%20관련%20유용한%20명령어.md)
 - [OSI 7 Layer - L4 vs L7](Network/OSI%207%20Layer%20-%20L4%20vs%20L7.md)
 - [PING 요청을 막는 3가지 방법](Network/PING%20요청을%20막는%203가지%20방법.md)
-- [Socket](Network/Socket.md)
 - [SubNetting](Network/SubNetting.md)
 - [Switch vs Router](Network/Switch%20vs%20Router.md)
-- [TCP](Network/TCP.md)
 - [UDP](Network/UDP.md)
 - [URI_URL_URN](Network/URI_URL_URN.md)
 
