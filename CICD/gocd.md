@@ -172,3 +172,61 @@ OpenJDK 64-Bit Server VM AdoptOpenJDK (build 15.0.1+9, mixed mode, sharing)
 ```
 
 
+
+## Pipeline Dependency 전략
+![image.png](/files/2966801366336331658)
+해당 Pipe 진행 순서는 다음과 같다.
+1. `Meterial`(저장소)에서 소스 checkout을 한다
+2. `UpdateamPipeline의 Stage1` 실행
+3. `UpdateamPipeline의 Stage2` 실행
+4. `UpstreamPipeline Stage3`, `DownStreamPipeLine Stage1`  병렬로 실행
+5. `DownStream PipeLine Stage2` 실행
+
+위와같은 Pipeline을 구성하고 싶다면 아래와 같이 Upstream Pipeline을 선택하고 선택된 Pipeline의 Stage를 선택한다.
+![image.png](/files/2966801593824751944)
+
+
+## Artifact 저장소
+![image.png](/files/2967044355102462518)
+해당 task에 artifacts에 다음과 같이 입력을 하면 결과물을 전달받을 수 있다.
+각 Task에서 artifacts의 경로를 작성하면 Agent에서 작업을 완료할때 Source에 적혀있는 작업물을 Server에 업로드 하여준다. (Destination에 적혀있는 위치로)
+
+![image.png](/files/2967048245313089492)
+
+실제로 위와 같은 환경에서 빌드할 경우에 gocd-server에서는 아래와 같은 위치에 파일이 놓이게된다.
+
+Pipeline 내부에 `Build_and_Test` Stage의 `12`번째 Instance(시도 횟수) 내에 `Gradle_Build` Job의 `1`번째 Instance의  `build_gradle` Task
+
+![image.png](/files/2967046316130326808)
+
+![image.png](/files/2967071404212335239)
+저장된 Artifact 가져오는 방법은 Task에서 정의가 가능하다.
+Task 생성시 `Fetch Artifact` 항목을 이용하여준다.
+
+![image.png](/files/2967072611541670678)
+아티팩트가 설정되어있는 항목들이 자동으로 Select Box에 들어가게되어 쉽게 설정이 가능하다.
+
+### 외부 저장소로 관리
+Store를 별도로 관리해야 하지만 현재로써는 Docker, AWS S3 plugin만을 지원중.
+![image.png](/files/2967037165539868016)
+![image.png](/files/2967036968562156916)
+
+
+## VSM
+![image.png](/files/2967081357487638121)
+일련의 작업 과정들을 보여주는 그래프
+
+VSM을 보여줄때 선택한 개채를 중심으로 보여주기 어떤것을 기준으로 보느냐에 따라 결과가 다를 수 있다.
+
+- next_step의 1번 인스턴스 기준으로 봤을때
+    - ![image.png](/files/2967083387609178312)
+- Build_and_Test의 6번 인스턴스 기준으로 봤을 때
+    - ![image.png](/files/2967083964789753049)
+
+### Fan-in, Fan-out
+Dependency의 관점으로 볼 수 있는 개념으로 아래와 같이 설명이 가능
+![image.png](/files/2967087265012431917)
+
+- `Build Pipeline`은 `User Acceptance Pipeline`, `Capacity Testing Pipeline`으로 Fan-out 한다.
+- `Production Pipeline`은 `Build Pipeline`, `User Acceptance Pipeline`, `Capacity Testing Pipeline` 으로부터 Fan-in 한다.
+
