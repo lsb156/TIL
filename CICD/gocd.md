@@ -60,6 +60,7 @@ Task에서는 Target Agent를 선택해서 지정이 가능하다.
 ### build-test
 ![img.png](2961612663985339825.png)
 
+
 ## Install gocd
 gocd가 동작하기 위해서는 하나의 Server에 여러 Agent가 붙어서 실행되는 방식이다
 
@@ -230,3 +231,17 @@ Dependency의 관점으로 볼 수 있는 개념으로 아래와 같이 설명�
 - `Build Pipeline`은 `User Acceptance Pipeline`, `Capacity Testing Pipeline`으로 Fan-out 한다.
 - `Production Pipeline`은 `Build Pipeline`, `User Acceptance Pipeline`, `Capacity Testing Pipeline` 으로부터 Fan-in 한다.
 
+
+
+
+
+## Install GoCD Test Drive
+Test 용으로 Local에서 확인하고 싶으면 다음과 같이 간편하게 설치/실행이 가능하게끔 Sample을 제공해주고있다
+``` bash
+# MAC-OS
+$ curl -fsSL 'https://www.gocd.org/test-drive-gocd/try.sh' | bash -s 'https://download.gocd.org/test-drive/installers/21.1.0/12439/gocd-21.1.0-12439-1245-osx.zip'
+```
+
+![image.png](/files/2961508038951004690)
+
+![image.png](/files/2961508405724086979)
