@@ -152,3 +152,57 @@ https://leedo1982.github.io/wiki/HAL/
 ### Affordances
 더 많은 내용을 담기 위한 ..
 https://github.com/spring-projects/spring-hateoas-examples/tree/main/affordances
+
+
+### Get link에 Parameter 정보 넣기
+#### Request를 Object로 받았을때``` java
+// 호출
+@GetMapping(value = "/v1.0/payment")
+public ResponseEntity<Object> test(@Valid RequestDto request) {}
+```
+
+``` json
+{
+    "_links": {
+        "self": {
+            "href": "http://localhost:8080/"
+        }
+    }
+}
+```
+
+
+#### @RequestParam으로 받았을때
+``` java
+// 호출 
+@GetMapping(value = "/v1.0/payment")
+public ResponseEntity<Object> test(@RequestParam String email,
+                                   @RequestParam String name) {}
+```
+
+``` json
+{
+    "_links": {
+        "self": {
+            "href": "http://localhost:8080?email=llsb156@gmail.com&name=Leesangbae"
+        }
+    }
+}
+```
+
+#### @RequestParam Annotation 제거했을 경우
+``` java
+// 호출 
+@GetMapping(value = "/v1.0/payment")
+public ResponseEntity<Object> test(String email,
+                                   String name) {}
+```
+``` json
+{
+    "_links": {
+        "self": {
+            "href": "http://localhost:8080/"
+        }
+    }
+}
+```
