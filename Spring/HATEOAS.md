@@ -206,3 +206,18 @@ public ResponseEntity<Object> test(String email,
     }
 }
 ```
+
+### X-Forwarded-* 헤더들 위임하기
+Spring-Boot 2.1 / Spring 5.1부터 X-Forwarded-*를 처리하는 책임을 Spring HATEOAS 에서 Spring MVC로 이전하여 동작을 안했음
+
+https://github.com/spring-projects/spring-framework/issues/21209
+
+해당 Bean 생성하여 해결
+``` java
+	@Bean
+	FilterRegistrationBean<ForwardedHeaderFilter> forwardedHeaderFilter() {
+		FilterRegistrationBean<ForwardedHeaderFilter> bean = new FilterRegistrationBean<>();
+		bean.setFilter(new ForwardedHeaderFilter());
+		return bean;
+	}
+```
