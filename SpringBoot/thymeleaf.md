@@ -43,7 +43,58 @@ case에 `*`은 java의 switch 문 중 `default`에 해당하는 표현입니다.
 
 
 
+## 반복문 문법
+### each
+#### Markup
+`avatars` 라는 `List<Avatar>` 형태의 객체를 반복문으로 표현
+``` html
+<div class="aside">
+  <ul>
+    <th:block th:each="avatar, index : ${avatars}">
+      <li><span th:text="|[${index.index}] - ${avatar.name}|"></span></li>
+    </th:block>
+  </ul>
+</div>
 
+<!-- 결과 -->
+[0] - 머니 아바타 1
+[1] - 머니 아바타 2
+[2] - 머니 아바타 3
+```
+
+
+`each="avatar, index : ${avatars}"`로 iteration 변수로 index로 선언해주어 `index.index` 형식으로 사용이 가능하다.
+추가적으로 변수명를 선언하지 않는다면 `avatarStat`으로 사용이 가능하다. (`{variableName}Stat`)
+
+Index Status에서 사용 가능한 변수들
+- index : 현재 반복 인덱스  (0부터 시작)
+- count : 현재 반복 인덱스  (1부터 시작)
+- size : 총 요소 수
+- current : 현재 요소
+- even : 현재 반복이 짝수인지 여부 (boolean)
+- odd : 현재 반복이 홀수인지 여부 (boolean)
+- first : 현재 반복이 첫번째인지 여부 (boolean)
+- last : 현재 반복이 마지막인지 여부 (boolean)
+
+#### Script
+``` html
+<script th:inline="javascript">
+    var temp = {
+        /*[# th:each="avatar : ${avatars}"]*/
+        "[[${avatar.sequence}]]" : "[[${avatar.price}]]" /*[# th:if=${!avatarStat.last}]*/,/*[/]*/
+        /*[/]*/
+      };
+</script>
+
+<!-- 결과 -->
+<script>
+    var temp = {
+      "1" : "1000" ,
+      "2" : "5000" ,
+      "3" : "10000" 
+    };
+</script>
+```
 
 ### sequence
 ``` html
