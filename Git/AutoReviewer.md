@@ -24,3 +24,8 @@
 11. 선택적으로 각 풀 검토 요청에 대해 코드 검토 할당으로 선택한 팀 구성원에게만 알리려면 "알림"에서 팀 구성원을 할당하는 경우 전체 팀에 알리지 않음을 선택합니다.
 ![image_11](../asset/Git/review_assignment_11.png)
 12. `Save changes`를 클릭하여 변경사항에 대해 저장합니다.
+
+
+> 참조
+>
+> https://docs.github.com/en/organizations/organizing-members-into-teams/managing-code-review-assignment-for-your-team
