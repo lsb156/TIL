@@ -64,7 +64,7 @@
 - [Amazon EC2 환경 셋팅](Configure/Amazon%20EC2%20환경%20셋팅.md)
 - [KotlinDSL Multi Module](Configure/KotlinDSL%20Multi%20Module.md)
 - [MySQL Install](Configure/MySQL%20Install.md)
-- [Nginx 설정](Configure/Nginx%20설정.md)
+- [Nginx 설정](Nginx/Nginx%20설정.md)
 - [TraviceCI CodeDeploy를 이용한 배포](Configure/TraviceCI%20CodeDeploy를%20이용한%20배포.md)
 - [Test Database in Docker](Configure/Test%20Database%20in%20Docker.md)
 
