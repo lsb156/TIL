@@ -27,3 +27,15 @@ shell command
 ```
 docker -D exec -it prometheus sh
 ```
+
+
+
+## spring boot prometheus
+```
+# prometheus tag
+management:
+  metrics:
+    tags:
+      application: ${spring.application.name}
+
+```
