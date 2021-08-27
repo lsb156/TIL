@@ -102,3 +102,7 @@ public class MySecurityConfiguration {
 
 }
 ```
+
+> https://reflectoring.io/spring-boot-health-check/
+> https://godekdls.github.io/Spring%20Boot/endpoints/
+> https://docs.spring.io/spring-boot/docs/current/reference/html/actuator.html
