@@ -103,6 +103,40 @@ public class MySecurityConfiguration {
 }
 ```
 
+
+#### actuator security
+``` groovy
+compile 'org.springframework.boot:spring-boot-starter-security'
+```
+
+``` java
+@Configuration
+@AllArgsConstructor
+public class SecuritySecureConfig extends WebSecurityConfigurerAdapter {
+ 
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http.authorizeRequests()
+            .antMatchers(UrlConstants.SECURE + "/**").authenticated()
+            .anyRequest().permitAll()
+            .and()
+            .httpBasic()
+            .and()
+            .csrf().disable();
+    }
+     
+}
+```
+
+``` yaml
+spring:
+  security:
+    user:
+      name: {{usrename}}
+      password: {{password}}
+
+```
+
 > https://reflectoring.io/spring-boot-health-check/
 > https://godekdls.github.io/Spring%20Boot/endpoints/
 > https://docs.spring.io/spring-boot/docs/current/reference/html/actuator.html
