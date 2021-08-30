@@ -24,3 +24,6 @@ wait_timeout은 session, global variable 두 개로 구성
 - Hikari PoolEntry에 Scheduled Event를 걸어 maxLifetime 시간 이후에 강제적으로 Connection을 종료
 - global wait_timeout 값이 maxLifetime 보다 짧아서 생긴 현상
 - 30분마다 종료하려고 하는데 `이미 닫힌 커넥션에서 무엇을 하려고 하기에 경고 문구가 노출`
+
+> HikariCP Failed to Validate Connection Warning 이야기
+> https://jaehun2841.github.io/2020/01/08/2020-01-08-hikari-pool-validate-connection/#hikari-pool에서-connection을-관리하는-방법
