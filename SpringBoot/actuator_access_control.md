@@ -38,6 +38,12 @@ public class MyHealthIndicator implements HealthIndicator {
 }
 ```
 
+### Actuator Endpoint Url 변경
+``` properties
+management.endpoints.web.base-path=/monitor
+management.endpoints.web.path-mapping.health=health
+```
+
 
 ### CORS Support
 ```
