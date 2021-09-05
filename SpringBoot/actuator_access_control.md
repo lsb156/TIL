@@ -140,7 +140,7 @@ spring:
     user:
       name: {{usrename}}
       password: {{password}}
-
+      roles: ACTUATOR_ADMIN
 ```
 
 > https://reflectoring.io/spring-boot-health-check/
